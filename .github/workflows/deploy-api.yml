@@ -34,6 +34,14 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      # Staging RDS: DATABASE_URL from GitHub environment "wzrusz" (local dev uses gitignored .env).
+      # If this fails (RDS SG blocks GitHub IPs), run once locally:
+      #   DATABASE_URL='<staging-url>' npm run db:migrate
+      - name: Run database migrations (staging)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run db:migrate
+
       - name: Build API
         run: npx nx run api:build --configuration=production
 
@@ -76,6 +84,11 @@ jobs:
                 "Namespace": "aws:elasticbeanstalk:environment",
                 "OptionName": "ServiceRole",
                 "Value": "aws-elasticbeanstalk-service-role"
+              },
+              {
+                "Namespace": "aws:elasticbeanstalk:application:environment",
+                "OptionName": "APP_ENV",
+                "Value": "staging"
               }
             ]
           wait-for-environment-recovery: true

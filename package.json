@@ -5,7 +5,11 @@
   "scripts": {
     "start": "nx serve web",
     "build": "nx run-many -t build -p web,api",
-    "write-api-url": "node scripts/write-api-base-url.mjs"
+    "write-api-url": "node scripts/write-api-base-url.mjs",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts",
+    "api:local": "APP_ENV=local nx serve api"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +26,10 @@
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "dotenv": "^16.4.7",
+    "pg": "^8.16.0",
+    "typeorm": "^0.3.24",
     "@primeng/themes": "^21.0.4",
     "axios": "^1.6.0",
     "express": "^4.21.2",

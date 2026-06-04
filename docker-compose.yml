@@ -1,0 +1,22 @@
+# Local Postgres for Wzrusz (non-default host port — 5432 often taken on macOS).
+# Start: npm run db:up   Stop: npm run db:down
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: wzrusz-postgres
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: wzrusz
+      POSTGRES_PASSWORD: wzrusz
+      POSTGRES_DB: wzrusz_dev
+    volumes:
+      - wzrusz_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U wzrusz -d wzrusz_dev']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  wzrusz_pg_data:
