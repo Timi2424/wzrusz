@@ -67,4 +67,17 @@ jobs:
           environment-name: ${{ env.EB_ENVIRONMENT_NAME }}
           version-label: api-${{ github.sha }}
           deployment-package-path: api-deploy.zip
+          option-settings: |
+            [
+              {
+                "Namespace": "aws:autoscaling:launchconfiguration",
+                "OptionName": "IamInstanceProfile",
+                "Value": "aws-elasticbeanstalk-ec2-role"
+              },
+              {
+                "Namespace": "aws:elasticbeanstalk:environment",
+                "OptionName": "ServiceRole",
+                "Value": "aws-elasticbeanstalk-service-role"
+              }
+            ]
           wait-for-environment-recovery: true
