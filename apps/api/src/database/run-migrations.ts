@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { createMigrationDataSource } from './typeorm.data-source';
 
 async function run(): Promise<void> {

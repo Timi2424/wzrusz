@@ -34,28 +34,32 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      # Staging RDS: DATABASE_URL from GitHub environment "wzrusz" (local dev uses gitignored .env).
-      # If this fails (RDS SG blocks GitHub IPs), run once locally:
-      #   DATABASE_URL='<staging-url>' npm run db:migrate
-      - name: Run database migrations (staging)
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npm run db:migrate
+      # RDS is in a private VPC — GitHub runners cannot reach it (ETIMEDOUT).
+      # Migrations run on EB via .platform/hooks/postdeploy using DATABASE_URL from EB env.
 
       - name: Build API
         run: npx nx run api:build --configuration=production
+
+      - name: Compile migration bundle for EB
+        run: npx tsc -p apps/api/tsconfig.migrate.json
 
       - name: Package deployment artifact
         run: |
           cd dist/apps/api
           node -e "
             const fs = require('fs');
+            const path = require('path');
+            const rootPkg = JSON.parse(fs.readFileSync(path.join('..', '..', '..', 'package.json'), 'utf8'));
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             pkg.scripts = { start: 'node main.js' };
             pkg.engines = { node: '>=20' };
+            if (rootPkg.dependencies?.pg) pkg.dependencies.pg = rootPkg.dependencies.pg;
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
           npm ci --omit=dev --no-audit --no-fund
+          mkdir -p .platform/hooks/postdeploy
+          cp ../../../apps/api/.platform/hooks/postdeploy/01_migrate.sh .platform/hooks/postdeploy/
+          chmod +x .platform/hooks/postdeploy/01_migrate.sh
           zip -r ../../../api-deploy.zip .
 
       - name: Configure AWS credentials
