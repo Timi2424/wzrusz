@@ -62,14 +62,19 @@ jobs:
           EOF
           zip -r ../../../web-deploy.zip .
 
-      - name: Deploy to Elastic Beanstalk
-        uses: aws-actions/aws-elasticbeanstalk-deploy@v1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ env.AWS_REGION }}
-          application_name: ${{ env.EB_APPLICATION_NAME }}
-          environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
-          version_label: ${{ github.sha }}
-          deployment_package: web-deploy.zip
-          wait_for_environment_recovery: true
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to Elastic Beanstalk
+        uses: aws-actions/aws-elasticbeanstalk-deploy@v1.0.4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          application-name: ${{ env.EB_APPLICATION_NAME }}
+          environment-name: ${{ env.EB_ENVIRONMENT_NAME }}
+          version-label: web-${{ github.sha }}
+          deployment-package-path: web-deploy.zip
+          wait-for-environment-recovery: true
