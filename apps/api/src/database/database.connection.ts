@@ -52,8 +52,8 @@ export function stripSslModeFromDatabaseUrl(url: string): string {
 export function loadRdsCaBundle(): string {
   const candidates = [
     join(process.cwd(), 'certs', RDS_CA_FILE),
+    join(__dirname, '..', 'certs', RDS_CA_FILE),
     join(__dirname, '..', '..', 'certs', RDS_CA_FILE),
-    join(__dirname, '..', '..', '..', 'certs', RDS_CA_FILE),
   ];
 
   for (const path of candidates) {
@@ -63,7 +63,7 @@ export function loadRdsCaBundle(): string {
   }
 
   throw new Error(
-    `RDS CA bundle not found (${RDS_CA_FILE}). Expected under ./certs/ (EB deploy or apps/api/certs/).`,
+    `RDS CA bundle not found (${RDS_CA_FILE}). Expected under ./certs/ (deploy bundle or apps/api/src/certs/).`,
   );
 }
 

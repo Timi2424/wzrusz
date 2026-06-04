@@ -60,7 +60,7 @@ jobs:
           npm install --omit=dev --no-audit --no-fund
           test -f migrate/database/run-migrations.js
           test -d node_modules/pg
-          cp -r ../../../apps/api/certs ./certs
+          cp -r ../../../apps/api/src/certs ./certs
           test -f certs/rds-ca-bundle.pem
           mkdir -p .platform/hooks/postdeploy
           cp ../../../apps/api/.platform/hooks/postdeploy/01_migrate.sh .platform/hooks/postdeploy/
