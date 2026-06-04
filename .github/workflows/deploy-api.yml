@@ -12,8 +12,8 @@ on:
 
 env:
   AWS_REGION: eu-central-1
-  EB_APPLICATION_NAME: wzrusz-api
-  EB_ENVIRONMENT_NAME: wzrusz-api-staging
+  EB_APPLICATION_NAME: wzrusz-api-staging
+  EB_ENVIRONMENT_NAME: Wzrusz-api-staging-env
 
 jobs:
   deploy:
@@ -37,9 +37,6 @@ jobs:
       - name: Build API
         run: npx nx run api:build --configuration=production
 
-      - name: Prune lockfile for deploy bundle
-        run: npx nx run api:prune
-
       - name: Package deployment artifact
         run: |
           cd dist/apps/api
@@ -50,6 +47,7 @@ jobs:
             pkg.engines = { node: '>=20' };
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
+          npm ci --omit=dev --no-audit --no-fund
           zip -r ../../../api-deploy.zip .
 
       - name: Configure AWS credentials
