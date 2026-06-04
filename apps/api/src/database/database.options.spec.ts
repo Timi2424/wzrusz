@@ -17,20 +17,23 @@ describe('buildTypeOrmOptions', () => {
     expect(() => buildTypeOrmOptions()).toThrow(/DATABASE_URL is required/);
   });
 
-  it('enables ssl for RDS-style URLs', () => {
+  it('enables verified ssl for RDS-style URLs', () => {
     process.env.DATABASE_URL =
       'postgresql://u:p@host:5432/db?sslmode=require';
     const options = buildTypeOrmOptions() as TypeOrmModuleOptions & {
-      ssl?: { rejectUnauthorized: boolean };
+      url?: string;
+      ssl?: { ca: string; rejectUnauthorized: boolean };
     };
-    expect(options.ssl).toEqual({ rejectUnauthorized: false });
+    expect(options.url).toBe('postgresql://u:p@host:5432/db');
+    expect(options.ssl?.rejectUnauthorized).toBe(true);
+    expect(options.ssl?.ca).toContain('BEGIN CERTIFICATE');
     expect(options.synchronize).toBe(false);
   });
 
   it('omits ssl for local URLs', () => {
     process.env.DATABASE_URL = 'postgresql://u:p@localhost:5432/wzrusz_dev';
     const options = buildTypeOrmOptions() as TypeOrmModuleOptions & {
-      ssl?: { rejectUnauthorized: boolean };
+      ssl?: { ca: string; rejectUnauthorized: boolean };
     };
     expect(options.ssl).toBeUndefined();
   });
