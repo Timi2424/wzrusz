@@ -1,0 +1,20 @@
+@import 'primeicons/primeicons.css';
+
+:root {
+  --wzrusz-bg: #b8d4e8;
+  --wzrusz-accent: #e85d04;
+  --wzrusz-text: #1a1a2e;
+  --font-display: 'TAN Grandeur', Georgia, serif;
+  --font-logo: 'TAN Buster', Georgia, serif;
+  --font-serif: 'TAN Garland', Georgia, serif;
+  --font-ui: system-ui, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--font-ui);
+  color: var(--wzrusz-text);
+  background-color: var(--wzrusz-bg);
+}
