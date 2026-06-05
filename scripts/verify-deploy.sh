@@ -8,7 +8,13 @@ echo "1. API /api"
 test "$(curl -fsS --max-time 15 "$API/api")" = '{"message":"Hello API"}' && echo "   OK"
 
 echo "2. API /api/health"
-test "$(curl -fsS --max-time 15 "$API/api/health")" = '{"status":"ok"}' && echo "   OK"
+health=$(curl -fsS --max-time 15 "$API/api/health")
+echo "$health" | grep -q '"status":"ok"' && echo "   status OK"
+if echo "$health" | grep -q '"database":"up"'; then
+  echo "   database OK"
+else
+  echo "   WARN: database not up — $health"
+fi
 
 echo "3. Web status"
 code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "$WEB/")
