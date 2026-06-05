@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Button } from 'primeng/button';
+import { RouterLink } from '@angular/router';
 import { PageSeoService } from '../../core/seo/page-seo.service';
 import { WZRUSZ_HOME_SEO } from '../../core/seo/page-seo.model';
 
 @Component({
   selector: 'app-home',
-  imports: [Button],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

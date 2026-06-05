@@ -1,0 +1,58 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(26, 26, 46, 0.08);
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.85rem 1.25rem;
+}
+
+.site-header__logo {
+  font-family: var(--font-logo);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--wzrusz-text);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.site-header__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+
+  a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--wzrusz-text);
+    text-decoration: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.35rem;
+
+    &:hover,
+    &.is-active {
+      color: var(--wzrusz-accent);
+    }
+  }
+}
+
+.site-header__dekolista {
+  border: 1px solid rgba(232, 93, 4, 0.35);
+  background: rgba(232, 93, 4, 0.08);
+}

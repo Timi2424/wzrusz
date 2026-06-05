@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
 import { Home } from './home';
 import { WZRUSZ_HOME_SEO } from '../../core/seo/page-seo.model';
 
@@ -7,6 +8,7 @@ describe('Home', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Home],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -23,11 +25,13 @@ describe('Home', () => {
     );
   });
 
-  it('should render visible h1 for SSR', () => {
+  it('should render hero section for SSR', () => {
     const fixture = TestBed.createComponent(Home);
     fixture.detectChanges();
 
+    const hero = fixture.nativeElement.querySelector('[data-testid="home-hero"]');
     const h1 = fixture.nativeElement.querySelector('h1');
-    expect(h1?.textContent).toContain('Wzrusz');
+    expect(hero).toBeTruthy();
+    expect(h1?.textContent).toContain('Ozdób event');
   });
 });
