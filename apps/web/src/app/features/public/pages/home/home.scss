@@ -1,0 +1,171 @@
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.hero {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 4rem 0 0;
+}
+
+.hero__container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 0 var(--wzrusz-container-pad);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero__decor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: min(48rem, 100%);
+  height: 20rem;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.hero__sparkles {
+  position: absolute;
+  opacity: 0.92;
+  object-fit: contain;
+
+  &--left {
+    top: 5.5rem;
+    left: -5.5rem;
+    width: 5.5rem;
+    transform: rotate(-10deg);
+  }
+
+  &--right {
+    top: 6.5rem;
+    right: -4.5rem;
+    width: 4rem;
+    transform: rotate(14deg) scale(0.9);
+  }
+}
+
+.hero__wave-wrap {
+  line-height: 0;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.hero__wave {
+  display: inline-block;
+  width: min(68%, 36rem);
+  height: auto;
+  pointer-events: none;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.hero__eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wzrusz-accent);
+}
+
+.hero__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.15;
+}
+
+.hero__lead {
+  margin: 0 auto 2rem;
+  max-width: 38rem;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.hero__cta,
+.hero__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hero__cta {
+  background: var(--wzrusz-accent);
+  color: #fff;
+}
+
+.hero__secondary {
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 28%, transparent);
+  color: var(--wzrusz-ink);
+  background: color-mix(in srgb, var(--wzrusz-cream) 88%, white);
+}
+
+@media (max-width: 52rem) {
+  .hero__sparkles--left {
+    left: -3rem;
+    width: 4.25rem;
+  }
+
+  .hero__sparkles--right {
+    right: -2.25rem;
+    width: 3.25rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .hero__decor {
+    height: 17rem;
+  }
+
+  .hero__sparkles--left {
+    top: 4.75rem;
+    left: -1.75rem;
+    width: 3.5rem;
+    opacity: 0.75;
+  }
+
+  .hero__sparkles--right {
+    top: 5.5rem;
+    right: -1.25rem;
+    width: 2.75rem;
+    opacity: 0.75;
+  }
+
+  .hero__wave {
+    width: 82%;
+  }
+}

@@ -1,0 +1,27 @@
+.coming-soon {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+  text-align: center;
+
+  h1 {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  p {
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+  }
+
+  a {
+    color: var(--wzrusz-accent);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

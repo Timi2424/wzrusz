@@ -1,0 +1,87 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--wzrusz-header-bg) 94%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240, 180, 80, 0.25);
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--wzrusz-ink) 10%, transparent),
+    0 10px 28px color-mix(in srgb, var(--wzrusz-ink) 16%, transparent),
+    0 20px 48px color-mix(in srgb, var(--wzrusz-ink) 10%, transparent);
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 0.55rem var(--wzrusz-container-pad);
+}
+
+.site-header__logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+}
+
+.site-header__logo-image {
+  display: block;
+  height: clamp(3rem, 8.5vw, 4rem);
+  width: auto;
+}
+
+.site-header__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.site-header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.35rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--wzrusz-ink);
+  text-decoration: none;
+  background: transparent;
+  box-shadow: none;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    color: var(--wzrusz-accent);
+    background: color-mix(in srgb, white 62%, var(--wzrusz-cream));
+    border-color: color-mix(in srgb, var(--wzrusz-ink) 18%, transparent);
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--wzrusz-ink) 12%, transparent);
+    transform: translateY(-1px);
+  }
+}
+
+.site-header__nav-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}

@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve web",
+    "start": "npm run serve:web",
+    "serve:web": "nx serve web",
+    "serve:api": "APP_ENV=local nx serve api",
     "build": "nx run-many -t build -p web,api",
     "write-api-url": "node scripts/write-api-base-url.mjs",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts",
-    "api:local": "APP_ENV=local nx serve api"
+    "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts"
   },
   "private": true,
   "dependencies": {

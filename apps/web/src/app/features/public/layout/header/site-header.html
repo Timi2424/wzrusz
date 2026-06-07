@@ -1,0 +1,19 @@
+<header
+  class="site-header"
+  [class.site-header--hidden]="!sticky.visible()"
+  data-testid="site-header"
+>
+  <div class="site-header__inner">
+    <a class="site-header__logo" routerLink="/" aria-label="Wzrusz — strona główna">
+      <img class="site-header__logo-image" [src]="logoSrc" alt="" width="260" height="78" />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Menu główne">
+      <a class="site-header__nav-link" routerLink="/katalog">Katalog</a>
+      <a class="site-header__nav-link site-header__nav-link--dekolista" routerLink="/dekolista">
+        Dekolista
+        <i class="pi pi-list site-header__nav-icon" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </div>
+</header>

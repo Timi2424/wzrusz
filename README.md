@@ -8,10 +8,12 @@
 
 ## Run tasks
 
-To run the dev server for your app, use:
+To run dev servers (separate terminals):
 
 ```sh
-npx nx serve web
+npm run db:up          # Postgres (first time)
+npm run serve:api      # Nest API — :3000
+npm run serve:web      # Angular SSR — proxy /api → API
 ```
 
 To create a production bundle:

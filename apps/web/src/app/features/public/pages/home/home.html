@@ -1,0 +1,26 @@
+<section class="hero" data-testid="home-hero">
+  <div class="hero__container">
+    <div class="hero__decor" aria-hidden="true">
+      <img class="hero__sparkles hero__sparkles--left" [src]="sparklesSrc" alt="" />
+      <img class="hero__sparkles hero__sparkles--right" [src]="sparklesSrc" alt="" />
+    </div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">Wypożyczalnia dekoracji eventowych</p>
+      <h1 class="hero__title">Ozdób event tak, jak marzysz — bez chaosu w Excelu</h1>
+      <p class="hero__lead">
+        Przeglądaj katalog dekoracji, zbieraj wybrane pozycje na Dekoliście i wyślij jedno
+        zapytanie o termin. My sprawdzimy dostępność i magazyn, żebyś wiedział, co realnie
+        możesz wynająć.
+      </p>
+      <div class="hero__actions">
+        <a class="hero__cta" routerLink="/katalog">Przeglądaj katalog</a>
+        <a class="hero__secondary" routerLink="/dekolista">Twoja Dekolista</a>
+      </div>
+    </div>
+
+    <div class="hero__wave-wrap">
+      <img class="hero__wave" [src]="waveSrc" alt="" />
+    </div>
+  </div>
+</section>

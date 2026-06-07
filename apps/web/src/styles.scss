@@ -1,13 +1,44 @@
 @import 'primeicons/primeicons.css';
 
+/* TAN (TanType) — pliki w public/fonts/. Wordmark wavy = brand/logo.png, nie font. */
+@font-face {
+  font-family: 'TAN Grandeur';
+  src: url('/fonts/TAN-GRANDEUR-Regular.otf') format('opentype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'TAN Buster';
+  src: url('/fonts/TAN-BUSTER-Regular.otf') format('opentype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'TAN Garland';
+  src: url('/fonts/TAN-Garland-Regular.otf') format('opentype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
-  --wzrusz-bg: #b8d4e8;
-  --wzrusz-accent: #e85d04;
-  --wzrusz-text: #1a1a2e;
+  /* Paleta: krem + błękit + granatowy ink (zamiast czerni) */
+  --wzrusz-cream: #fffad7;
+  --wzrusz-bg: #b0e0f0;
+  --wzrusz-header-bg: var(--wzrusz-cream);
+  --wzrusz-accent: #f06000;
+  --wzrusz-ink: #01468e;
+  --wzrusz-ink-muted: #3d5f73;
+  --wzrusz-text: var(--wzrusz-ink);
+  --wzrusz-surface-dark: var(--wzrusz-ink);
   --font-display: 'TAN Grandeur', Georgia, serif;
   --font-logo: 'TAN Buster', Georgia, serif;
   --font-serif: 'TAN Garland', Georgia, serif;
   --font-ui: system-ui, sans-serif;
+  --wzrusz-container: 72rem;
+  --wzrusz-container-pad: 1.25rem;
 }
 
 html,
@@ -17,4 +48,9 @@ body {
   font-family: var(--font-ui);
   color: var(--wzrusz-text);
   background-color: var(--wzrusz-bg);
+}
+
+/* Grandeur — tylko akcenty (eyebrow, pojedyncze hasła), nie całe nagłówki */
+.text-grandeur {
+  font-family: var(--font-display);
 }
