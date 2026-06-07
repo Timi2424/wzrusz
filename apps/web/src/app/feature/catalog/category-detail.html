@@ -42,17 +42,31 @@
                 >
                   {{ stockLabel(decoration.stockQuantity) }}
                 </p>
-                <button
-                  type="button"
-                  class="catalog__decor-add"
-                  (click)="addToDekolista(decoration)"
-                >
-                  @if (dekolista.contains(decoration.id)) {
-                    Dodaj kolejną szt.
-                  } @else {
-                    Dodaj do Dekolisty
-                  }
-                </button>
+                <div class="catalog__decor-actions">
+                  <label class="wz-qty-field wz-qty-field--inline">
+                    <span class="wz-qty-field__label">Ilość</span>
+                    <input
+                      class="wz-qty-field__input"
+                      type="number"
+                      min="1"
+                      inputmode="numeric"
+                      [value]="draftQuantity(decoration.id)"
+                      (change)="updateDraftQuantity(decoration.id, $any($event.target).value)"
+                      [attr.aria-label]="'Ilość: ' + decoration.name"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    class="catalog__decor-add wz-btn-pill"
+                    (click)="addToDekolista(decoration)"
+                  >
+                    @if (dekolista.contains(decoration.id)) {
+                      Dodaj {{ draftQuantity(decoration.id) }} szt.
+                    } @else {
+                      Dodaj do Dekolisty
+                    }
+                  </button>
+                </div>
               </div>
             </article>
           </li>

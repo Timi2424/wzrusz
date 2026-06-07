@@ -20,9 +20,8 @@ describe('DekolistaStore', () => {
     store.clear();
   });
 
-  it('adds a decoration and increments quantity on repeat add', () => {
-    store.addDecoration(sampleDecoration, 'Balony');
-    store.addDecoration(sampleDecoration, 'Balony');
+  it('adds a decoration with chosen quantity', () => {
+    store.addDecoration(sampleDecoration, 'Balony', 3);
 
     expect(store.entries()).toEqual([
       {
@@ -30,10 +29,18 @@ describe('DekolistaStore', () => {
         name: 'Girlanda',
         slug: 'girlanda',
         categoryName: 'Balony',
-        quantity: 2,
+        quantity: 3,
       },
     ]);
-    expect(store.totalQuantity()).toBe(2);
+    expect(store.totalQuantity()).toBe(3);
+  });
+
+  it('adds chosen quantity on repeat add', () => {
+    store.addDecoration(sampleDecoration, 'Balony', 2);
+    store.addDecoration(sampleDecoration, 'Balony', 3);
+
+    expect(store.entries()[0]?.quantity).toBe(5);
+    expect(store.totalQuantity()).toBe(5);
   });
 
   it('persists items to localStorage when available', () => {

@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageSeoService } from '../../core/seo/page-seo.service';
 import { DekolistaStore } from '../../core/dekolista/dekolista.store';
+import { parseQuantityInput } from '../../core/dekolista/parse-quantity';
 
 @Component({
   selector: 'app-dekolista',
@@ -26,10 +27,6 @@ export class DekolistaPage implements OnInit {
   }
 
   protected changeQuantity(decorationId: string, raw: string): void {
-    const parsed = Number.parseInt(raw, 10);
-    if (Number.isNaN(parsed)) {
-      return;
-    }
-    this.store.setQuantity(decorationId, parsed);
+    this.store.setQuantity(decorationId, parseQuantityInput(raw));
   }
 }

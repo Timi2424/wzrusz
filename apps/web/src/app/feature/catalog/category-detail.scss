@@ -94,23 +94,10 @@
   }
 }
 
-.catalog__decor-add {
-  align-self: flex-start;
+.catalog__decor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
   margin-top: 0.35rem;
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--wzrusz-accent) 55%, transparent);
-  background: color-mix(in srgb, var(--wzrusz-accent) 10%, white);
-  color: var(--wzrusz-ink);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
-
-  &:hover {
-    background: color-mix(in srgb, var(--wzrusz-accent) 18%, white);
-    border-color: var(--wzrusz-accent);
-  }
 }

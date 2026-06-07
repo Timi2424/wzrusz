@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PageSeoService } from '../../core/seo/page-seo.service';
 import { CategoryDetail, DecorationCard } from '../../core/catalog/catalog-api.model';
 import { DekolistaStore } from '../../core/dekolista/dekolista.store';
+import { parseQuantityInput } from '../../core/dekolista/parse-quantity';
 import { CatalogApiService } from './catalog-api.service';
 import { stockLabel } from './stock-label';
 
@@ -24,6 +25,7 @@ export class CategoryDetailPage implements OnInit {
   protected readonly notFound = signal(false);
   protected readonly error = signal(false);
   protected readonly stockLabel = stockLabel;
+  private readonly draftQuantities = signal<Record<string, number>>({});
 
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug') ?? '';
@@ -48,8 +50,18 @@ export class CategoryDetailPage implements OnInit {
     });
   }
 
+  protected draftQuantity(decorationId: string): number {
+    return this.draftQuantities()[decorationId] ?? 1;
+  }
+
+  protected updateDraftQuantity(decorationId: string, raw: string): void {
+    const next = parseQuantityInput(raw);
+    this.draftQuantities.update((drafts) => ({ ...drafts, [decorationId]: next }));
+  }
+
   protected addToDekolista(decoration: DecorationCard): void {
     const categoryName = this.category()?.name ?? 'Katalog';
-    this.dekolista.addDecoration(decoration, categoryName);
+    const quantity = this.draftQuantity(decoration.id);
+    this.dekolista.addDecoration(decoration, categoryName, quantity);
   }
 }

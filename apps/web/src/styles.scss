@@ -39,6 +39,7 @@
   --font-ui: system-ui, sans-serif;
   --wzrusz-container: 72rem;
   --wzrusz-container-pad: 1.25rem;
+  --wz-control-h: 2.5rem;
 }
 
 html,
@@ -53,4 +54,118 @@ body {
 /* Grandeur — tylko akcenty (eyebrow, pojedyncze hasła), nie całe nagłówki */
 .text-grandeur {
   font-family: var(--font-display);
+}
+
+/* Quantity fields + pill buttons — katalog + dekolista */
+.wz-qty-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 5.5rem;
+}
+
+.wz-qty-field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: auto;
+}
+
+.wz-qty-field__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--wzrusz-ink-muted);
+  white-space: nowrap;
+}
+
+.wz-qty-field--inline .wz-qty-field__label {
+  margin: 0;
+}
+
+.wz-qty-field__input {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--wz-control-h);
+  padding: 0 0.65rem;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 22%, transparent);
+  background: #fff;
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--wzrusz-ink) 8%, transparent);
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  color: var(--wzrusz-ink);
+  appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--wzrusz-accent);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--wzrusz-accent) 28%, transparent),
+      inset 0 1px 2px color-mix(in srgb, var(--wzrusz-ink) 8%, transparent);
+  }
+}
+
+.wz-qty-field--inline .wz-qty-field__input {
+  width: 3.75rem;
+  flex-shrink: 0;
+}
+
+.wz-btn-pill {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--wz-control-h);
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--wzrusz-accent) 10%, white);
+  color: var(--wzrusz-ink);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--wzrusz-accent) 18%, white);
+    border-color: var(--wzrusz-accent);
+  }
+}
+
+.wz-btn-pill--ghost {
+  border-color: color-mix(in srgb, var(--wzrusz-ink) 18%, transparent);
+  background: color-mix(in srgb, white 70%, var(--wzrusz-cream));
+  color: var(--wzrusz-ink);
+
+  &:hover {
+    background: color-mix(in srgb, white 55%, var(--wzrusz-cream));
+    border-color: color-mix(in srgb, var(--wzrusz-ink) 28%, transparent);
+  }
+}
+
+.wz-btn-pill--accent {
+  border-color: color-mix(in srgb, var(--wzrusz-accent) 70%, #8a3200);
+  background: var(--wzrusz-accent);
+  color: #fff;
+
+  &:hover {
+    background: color-mix(in srgb, var(--wzrusz-accent) 88%, #5a2000);
+    border-color: color-mix(in srgb, var(--wzrusz-accent) 88%, #5a2000);
+  }
 }

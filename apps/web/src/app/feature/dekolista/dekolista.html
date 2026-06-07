@@ -11,7 +11,7 @@
   @if (store.isEmpty()) {
     <section class="dekolista__empty">
       <p>Lista jest pusta.</p>
-      <a routerLink="/katalog" class="dekolista__cta">Przeglądaj katalog</a>
+      <a routerLink="/katalog" class="dekolista__cta wz-btn-pill wz-btn-pill--accent">Przeglądaj katalog</a>
     </section>
   } @else {
     <ul class="dekolista__list">
@@ -22,23 +22,28 @@
             <p class="dekolista__row-meta">{{ item.categoryName }}</p>
           </div>
 
-          <label class="dekolista__qty">
-            <span class="dekolista__qty-label">Ilość</span>
-            <input
-              type="number"
-              min="1"
-              [value]="item.quantity"
-              (change)="changeQuantity(item.decorationId, $any($event.target).value)"
-            />
-          </label>
+          <div class="dekolista__row-controls">
+            <label class="wz-qty-field wz-qty-field--inline dekolista__qty">
+              <span class="wz-qty-field__label">Ilość</span>
+              <input
+                class="wz-qty-field__input"
+                type="number"
+                min="1"
+                inputmode="numeric"
+                [value]="item.quantity"
+                (change)="changeQuantity(item.decorationId, $any($event.target).value)"
+                [attr.aria-label]="'Ilość: ' + item.name"
+              />
+            </label>
 
-          <button
-            type="button"
-            class="dekolista__remove"
-            (click)="store.remove(item.decorationId)"
-          >
-            Usuń
-          </button>
+            <button
+              type="button"
+              class="dekolista__remove"
+              (click)="store.remove(item.decorationId)"
+            >
+              Usuń
+            </button>
+          </div>
         </li>
       }
     </ul>
@@ -56,10 +61,10 @@
     </p>
 
     <div class="dekolista__actions">
-      <button type="button" class="dekolista__secondary" (click)="store.clear()">
+      <button type="button" class="dekolista__secondary wz-btn-pill wz-btn-pill--ghost" (click)="store.clear()">
         Wyczyść listę
       </button>
-      <button type="button" class="dekolista__cta" (click)="confirmList()">
+      <button type="button" class="dekolista__cta wz-btn-pill wz-btn-pill--accent" (click)="confirmList()">
         Zatwierdź Dekolistę
       </button>
     </div>
@@ -67,7 +72,7 @@
     @if (store.confirmed()) {
       <section class="dekolista__confirmed" data-testid="dekolista-confirmed">
         <p>Listę zatwierdzono. Możesz przejść do formularza zapytania.</p>
-        <a routerLink="/zapytanie" class="dekolista__cta">Przejdź do zapytania</a>
+        <a routerLink="/zapytanie" class="dekolista__cta wz-btn-pill wz-btn-pill--accent">Przejdź do zapytania</a>
       </section>
     }
   }

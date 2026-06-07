@@ -1,6 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { DecorationCard } from '../catalog/catalog-api.model';
 import { DEKOLISTA_STORAGE_KEY, DekolistaItem } from './dekolista.model';
+import { normalizeQuantity } from './parse-quantity';
 
 @Injectable({ providedIn: 'root' })
 export class DekolistaStore {
@@ -15,7 +16,8 @@ export class DekolistaStore {
 
   readonly isEmpty = computed(() => this.items().length === 0);
 
-  addDecoration(decoration: DecorationCard, categoryName: string): void {
+  addDecoration(decoration: DecorationCard, categoryName: string, quantity = 1): void {
+    const add = normalizeQuantity(quantity);
     this.confirmed.set(false);
     const existing = this.items().find((item) => item.decorationId === decoration.id);
 
@@ -23,7 +25,7 @@ export class DekolistaStore {
       this.items.update((list) =>
         list.map((item) =>
           item.decorationId === decoration.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + add }
             : item,
         ),
       );
@@ -35,7 +37,7 @@ export class DekolistaStore {
           name: decoration.name,
           slug: decoration.slug,
           categoryName,
-          quantity: 1,
+          quantity: add,
         },
       ]);
     }
@@ -48,7 +50,7 @@ export class DekolistaStore {
   }
 
   setQuantity(decorationId: string, quantity: number): void {
-    const next = Math.max(1, Math.floor(quantity));
+    const next = normalizeQuantity(quantity);
     this.confirmed.set(false);
     this.items.update((list) =>
       list.map((item) =>
