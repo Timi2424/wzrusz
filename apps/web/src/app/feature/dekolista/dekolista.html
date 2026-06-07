@@ -3,8 +3,7 @@
     <p class="dekolista__eyebrow">Twoja lista</p>
     <h1 class="dekolista__title">Dekolista</h1>
     <p class="dekolista__lead">
-      Zbierz dekoracje z katalogu, sprawdź ilości i zatwierdź listę — dopiero potem przejdziesz do
-      formularza zapytania.
+      Zbierz dekoracje z katalogu, sprawdź ilości i przejdź do formularza zapytania.
     </p>
   </header>
 
@@ -64,16 +63,13 @@
       <button type="button" class="dekolista__secondary wz-btn-pill wz-btn-pill--ghost" (click)="store.clear()">
         Wyczyść listę
       </button>
-      <button type="button" class="dekolista__cta wz-btn-pill wz-btn-pill--accent" (click)="confirmList()">
-        Zatwierdź Dekolistę
-      </button>
+      <a
+        routerLink="/zapytanie"
+        class="dekolista__cta wz-btn-pill wz-btn-pill--accent"
+        data-testid="dekolista-to-inquiry"
+      >
+        Przejdź do zapytania
+      </a>
     </div>
-
-    @if (store.confirmed()) {
-      <section class="dekolista__confirmed" data-testid="dekolista-confirmed">
-        <p>Listę zatwierdzono. Możesz przejść do formularza zapytania.</p>
-        <a routerLink="/zapytanie" class="dekolista__cta wz-btn-pill wz-btn-pill--accent">Przejdź do zapytania</a>
-      </section>
-    }
   }
 </main>

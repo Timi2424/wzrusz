@@ -18,12 +18,8 @@ export class DekolistaPage implements OnInit {
     this.pageSeo.apply({
       title: 'Dekolista — Wzrusz',
       description:
-        'Przejrzyj wybrane dekoracje, dopasuj ilości i zatwierdź listę przed wysłaniem zapytania.',
+        'Przejrzyj wybrane dekoracje, dopasuj ilości i przejdź do formularza zapytania.',
     });
-  }
-
-  protected confirmList(): void {
-    this.store.confirm();
   }
 
   protected changeQuantity(decorationId: string, raw: string): void {

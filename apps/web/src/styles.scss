@@ -169,3 +169,66 @@ body {
     border-color: color-mix(in srgb, var(--wzrusz-accent) 88%, #5a2000);
   }
 }
+
+/* PrimeNG — always light brand fields (panel is appendTo="body") */
+.p-inputtext,
+.p-datepicker input,
+.p-datepicker .p-inputtext,
+.p-datepicker-time-picker input,
+.p-datepicker-time-picker .p-inputtext {
+  background: #fff;
+  color: var(--wzrusz-ink);
+  border-color: color-mix(in srgb, var(--wzrusz-ink) 22%, transparent);
+
+  &::placeholder {
+    color: var(--wzrusz-ink-muted);
+  }
+
+  &:enabled:focus {
+    border-color: var(--wzrusz-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--wzrusz-accent) 28%, transparent);
+  }
+}
+
+.p-datepicker-panel {
+  background: color-mix(in srgb, #fff 88%, var(--wzrusz-cream));
+  color: var(--wzrusz-ink);
+  border-color: color-mix(in srgb, var(--wzrusz-ink) 12%, transparent);
+}
+
+.p-datepicker-panel .p-datepicker-header {
+  color: var(--wzrusz-ink);
+}
+
+.p-datepicker-panel .p-datepicker-day,
+.p-datepicker-panel .p-datepicker-weekday,
+.p-datepicker-panel .p-datepicker-select-month,
+.p-datepicker-panel .p-datepicker-select-year {
+  color: var(--wzrusz-ink);
+}
+
+.p-datepicker-panel .p-datepicker-day:not(.p-disabled):hover {
+  background: color-mix(in srgb, var(--wzrusz-accent) 12%, white);
+  color: var(--wzrusz-ink);
+}
+
+.p-datepicker-panel .p-datepicker-day-selected,
+.p-datepicker-panel .p-datepicker-day-selected-range,
+.p-datepicker-panel .p-highlight {
+  background: var(--wzrusz-accent);
+  color: #fff;
+}
+
+.p-datepicker-panel .p-datepicker-day.p-disabled {
+  color: color-mix(in srgb, var(--wzrusz-ink-muted) 55%, transparent);
+  opacity: 0.45;
+}
+
+.p-datepicker-panel .p-datepicker-time-picker button {
+  color: var(--wzrusz-ink-muted);
+}
+
+.p-datepicker-panel .p-datepicker-time-picker button:enabled:hover {
+  background: color-mix(in srgb, var(--wzrusz-accent) 10%, white);
+  color: var(--wzrusz-ink);
+}

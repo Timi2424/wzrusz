@@ -20,7 +20,7 @@ describe('DekolistaPage', () => {
     expect(fixture.nativeElement.textContent).toContain('Lista jest pusta');
   });
 
-  it('shows confirm section after approval', () => {
+  it('shows link to inquiry when list has items', () => {
     const store = TestBed.inject(DekolistaStore);
     store.addDecoration(
       {
@@ -37,9 +37,8 @@ describe('DekolistaPage', () => {
     const fixture = TestBed.createComponent(DekolistaPage);
     fixture.detectChanges();
 
-    fixture.nativeElement.querySelector('.dekolista__actions .dekolista__cta')?.click();
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('[data-testid="dekolista-confirmed"]')).toBeTruthy();
+    const link = fixture.nativeElement.querySelector('[data-testid="dekolista-to-inquiry"]');
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('/zapytanie');
   });
 });

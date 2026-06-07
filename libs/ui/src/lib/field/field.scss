@@ -1,0 +1,28 @@
+/* Shared text-field look — inquiry inputs, PrimeNG pickers, qty fields */
+@mixin wz-field-surface {
+  box-sizing: border-box;
+  background: #fff;
+  color: var(--wzrusz-ink, #01468e);
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink, #01468e) 22%, transparent);
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1rem;
+
+  &::placeholder {
+    color: var(--wzrusz-ink-muted, #3d5f73);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: var(--wzrusz-accent, #f06000);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--wzrusz-accent, #f06000) 28%, transparent);
+  }
+}
+
+.wz-field {
+  @include wz-field-surface;
+  width: 100%;
+  min-height: var(--wz-control-h, 2.5rem);
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.55rem;
+}

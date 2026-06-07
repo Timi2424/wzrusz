@@ -6,7 +6,6 @@ import { normalizeQuantity } from './parse-quantity';
 @Injectable({ providedIn: 'root' })
 export class DekolistaStore {
   private readonly items = signal<DekolistaItem[]>(this.readFromStorage());
-  readonly confirmed = signal(false);
 
   readonly entries = this.items.asReadonly();
 
@@ -18,7 +17,6 @@ export class DekolistaStore {
 
   addDecoration(decoration: DecorationCard, categoryName: string, quantity = 1): void {
     const add = normalizeQuantity(quantity);
-    this.confirmed.set(false);
     const existing = this.items().find((item) => item.decorationId === decoration.id);
 
     if (existing) {
@@ -51,7 +49,6 @@ export class DekolistaStore {
 
   setQuantity(decorationId: string, quantity: number): void {
     const next = normalizeQuantity(quantity);
-    this.confirmed.set(false);
     this.items.update((list) =>
       list.map((item) =>
         item.decorationId === decorationId ? { ...item, quantity: next } : item,
@@ -61,21 +58,13 @@ export class DekolistaStore {
   }
 
   remove(decorationId: string): void {
-    this.confirmed.set(false);
     this.items.update((list) => list.filter((item) => item.decorationId !== decorationId));
     this.persist();
   }
 
   clear(): void {
-    this.confirmed.set(false);
     this.items.set([]);
     this.persist();
-  }
-
-  confirm(): void {
-    if (!this.isEmpty()) {
-      this.confirmed.set(true);
-    }
   }
 
   private persist(): void {

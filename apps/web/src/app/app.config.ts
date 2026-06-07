@@ -6,8 +6,8 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
 import { appRoutes } from './app.routes';
+import { WzruszAuraPreset } from './core/theme/wzrusz-primeng-preset';
 import {
   provideClientHydration,
   withEventReplay,
@@ -22,7 +22,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: WzruszAuraPreset,
+        options: {
+          darkModeSelector: false,
+        },
       },
     }),
   ],

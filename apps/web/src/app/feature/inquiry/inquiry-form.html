@@ -1,0 +1,155 @@
+<main class="inquiry" data-testid="inquiry-page">
+  <header class="inquiry__header">
+    <p class="inquiry__eyebrow">Formularz</p>
+    <h1 class="inquiry__title">Zapytanie o dekoracje</h1>
+    <p class="inquiry__lead">
+      Uzupełnij dane kontaktowe, termin i transport. Po prawej (lub poniżej) zobaczysz podgląd
+      wiadomości, którą wyślesz w następnym kroku.
+    </p>
+  </header>
+
+  @if (step() === 'form') {
+    <div class="inquiry__layout">
+      <form
+        class="inquiry__form"
+        data-testid="inquiry-form"
+        [formGroup]="form"
+        (ngSubmit)="goToReview()"
+        novalidate
+      >
+        <section class="inquiry__section" aria-labelledby="inquiry-contact-heading">
+          <h2 id="inquiry-contact-heading" class="inquiry__section-title">Dane kontaktowe</h2>
+
+          <label class="inquiry__field">
+            <span class="inquiry__label">Imię i nazwisko *</span>
+            <input class="inquiry__input" type="text" formControlName="fullName" autocomplete="name" />
+            @if (showError('fullName')) {
+              <span class="inquiry__error">Podaj imię i nazwisko.</span>
+            }
+          </label>
+
+          <label class="inquiry__field">
+            <span class="inquiry__label">E-mail *</span>
+            <input
+              class="inquiry__input"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+            />
+            @if (showError('email')) {
+              <span class="inquiry__error">Podaj poprawny adres e-mail.</span>
+            }
+          </label>
+
+          <label class="inquiry__field">
+            <span class="inquiry__label">Telefon</span>
+            <input
+              class="inquiry__input"
+              type="tel"
+              formControlName="phone"
+              autocomplete="tel"
+            />
+          </label>
+        </section>
+
+        <section class="inquiry__section" aria-labelledby="inquiry-term-heading">
+          <h2 id="inquiry-term-heading" class="inquiry__section-title">Termin wydarzenia</h2>
+
+          <div class="inquiry__field">
+            <span class="inquiry__label" id="inquiry-event-start-label">Początek *</span>
+            <wz-datetime-picker
+              formControlName="eventStart"
+              ariaLabelledBy="inquiry-event-start-label"
+              placeholder="Data i godzina rozpoczęcia"
+            />
+            @if (showError('eventStart')) {
+              <span class="inquiry__error">Podaj datę i godzinę rozpoczęcia.</span>
+            }
+          </div>
+
+          <div class="inquiry__field">
+            <span class="inquiry__label" id="inquiry-event-end-label">Koniec *</span>
+            <wz-datetime-picker
+              formControlName="eventEnd"
+              ariaLabelledBy="inquiry-event-end-label"
+              [minDate]="eventEndMinDate()"
+              placeholder="Data i godzina zakończenia"
+            />
+            @if (showError('eventEnd')) {
+              <span class="inquiry__error">Podaj datę i godzinę zakończenia.</span>
+            }
+          </div>
+
+          @if (showEventRangeError()) {
+            <p class="inquiry__error" role="alert">Data zakończenia musi być późniejsza niż początek.</p>
+          }
+        </section>
+
+        <section class="inquiry__section" aria-labelledby="inquiry-transport-heading">
+          <h2 id="inquiry-transport-heading" class="inquiry__section-title">Transport i faktura</h2>
+
+          <label class="inquiry__field">
+            <span class="inquiry__label">Adres transportu / montażu *</span>
+            <textarea
+              class="inquiry__input inquiry__textarea"
+              rows="3"
+              formControlName="transportAddress"
+            ></textarea>
+            @if (showError('transportAddress')) {
+              <span class="inquiry__error">Podaj adres lub miejsce dostawy.</span>
+            }
+          </label>
+
+          <wz-checkbox formControlName="needsInvoice">Potrzebuję faktury</wz-checkbox>
+
+          @if (form.controls.needsInvoice.value) {
+            <label class="inquiry__field">
+              <span class="inquiry__label">Uwagi do faktury</span>
+              <textarea
+                class="inquiry__input inquiry__textarea"
+                rows="2"
+                formControlName="invoiceNotes"
+                placeholder="np. NIP, dane do faktury"
+              ></textarea>
+            </label>
+          }
+        </section>
+
+        <div class="inquiry__actions">
+          <a routerLink="/dekolista" class="wz-btn-pill wz-btn-pill--ghost">Wróć do Dekolisty</a>
+          <button type="submit" class="wz-btn-pill wz-btn-pill--accent">Przejdź do podsumowania</button>
+        </div>
+      </form>
+
+      <aside class="inquiry__preview" aria-labelledby="inquiry-preview-heading">
+        <h2 id="inquiry-preview-heading" class="inquiry__section-title">Podgląd wiadomości</h2>
+        <pre class="inquiry__preview-text" data-testid="inquiry-preview">{{ preview() }}</pre>
+      </aside>
+    </div>
+  } @else {
+    <section class="inquiry__review" data-testid="inquiry-review">
+      <h2 class="inquiry__section-title">Podsumowanie przed wysłaniem</h2>
+      <p class="inquiry__review-lead">
+        Sprawdź treść wiadomości i listę dekoracji. Wysyłka zostanie podłączona w kolejnym kroku
+        (zapis w systemie i powiadomienie e-mail).
+      </p>
+
+      <ul class="inquiry__review-list">
+        @for (item of dekolista.entries(); track item.decorationId) {
+          <li>{{ item.name }} — {{ item.quantity }} szt.</li>
+        }
+      </ul>
+
+      <pre class="inquiry__preview-text inquiry__preview-text--review">{{ preview() }}</pre>
+
+      <div class="inquiry__actions">
+        <button type="button" class="wz-btn-pill wz-btn-pill--ghost" (click)="backToForm()">
+          Popraw dane
+        </button>
+        <button type="button" class="wz-btn-pill wz-btn-pill--accent" disabled>
+          Wyślij zapytanie (wkrótce)
+        </button>
+      </div>
+    </section>
+  }
+</main>

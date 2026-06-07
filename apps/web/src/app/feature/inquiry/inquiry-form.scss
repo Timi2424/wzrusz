@@ -1,0 +1,146 @@
+.inquiry {
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 2.5rem var(--wzrusz-container-pad) 4rem;
+}
+
+.inquiry__header {
+  max-width: 42rem;
+  margin-bottom: 2rem;
+}
+
+.inquiry__eyebrow {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wzrusz-accent);
+}
+
+.inquiry__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  color: var(--wzrusz-ink);
+}
+
+.inquiry__lead,
+.inquiry__review-lead {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--wzrusz-ink-muted);
+}
+
+.inquiry__layout {
+  display: grid;
+  gap: 1.5rem;
+
+  @media (min-width: 56rem) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+}
+
+.inquiry__form,
+.inquiry__preview,
+.inquiry__review {
+  padding: 1.25rem 1.35rem;
+  border-radius: 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 10%, transparent);
+  background: color-mix(in srgb, white 78%, var(--wzrusz-cream));
+}
+
+.inquiry__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+.inquiry__section-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--wzrusz-ink);
+}
+
+.inquiry__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.inquiry__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--wzrusz-ink-muted);
+}
+
+.inquiry__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--wz-control-h);
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 22%, transparent);
+  background: #fff;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--wzrusz-ink);
+
+  &:focus {
+    outline: none;
+    border-color: var(--wzrusz-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--wzrusz-accent) 28%, transparent);
+  }
+}
+
+.inquiry__textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+}
+
+.inquiry__error {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #9b2c2c;
+}
+
+.inquiry__preview-text {
+  margin: 0.75rem 0 0;
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--wzrusz-bg) 35%, white);
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 8%, transparent);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  color: var(--wzrusz-ink);
+  overflow: auto;
+  max-height: min(28rem, 55vh);
+}
+
+.inquiry__preview-text--review {
+  max-height: none;
+}
+
+.inquiry__review-list {
+  margin: 1rem 0;
+  padding-left: 1.2rem;
+  color: var(--wzrusz-ink);
+  line-height: 1.6;
+}
+
+.inquiry__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.inquiry__actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

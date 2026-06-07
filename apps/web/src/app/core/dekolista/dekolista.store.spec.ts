@@ -53,13 +53,4 @@ describe('DekolistaStore', () => {
     store.addDecoration(sampleDecoration, 'Balony');
     expect(localStorage.getItem(DEKOLISTA_STORAGE_KEY)).toContain('Girlanda');
   });
-
-  it('resets confirmed flag when list changes', () => {
-    store.addDecoration(sampleDecoration, 'Balony');
-    store.confirm();
-    expect(store.confirmed()).toBe(true);
-
-    store.setQuantity('dec-1', 3);
-    expect(store.confirmed()).toBe(false);
-  });
 });

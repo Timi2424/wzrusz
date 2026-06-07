@@ -1,0 +1,30 @@
+@use '../field/field';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.wz-datetime-picker {
+  width: 100%;
+}
+
+:host ::ng-deep .p-datepicker {
+  width: 100%;
+}
+
+:host ::ng-deep .wz-datetime-picker__input {
+  @include field.wz-field-surface;
+  width: 100%;
+  min-height: var(--wz-control-h, 2.5rem);
+  padding: 0.55rem 2.25rem 0.55rem 0.75rem;
+  border-radius: 0.55rem;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-input-icon-container {
+  color: var(--wzrusz-ink-muted, #3d5f73);
+}
+
+:host ::ng-deep .p-datepicker.ng-invalid.ng-dirty .wz-datetime-picker__input {
+  border-color: #9b2c2c;
+}

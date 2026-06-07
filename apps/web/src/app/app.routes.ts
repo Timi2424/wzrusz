@@ -20,7 +20,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'zapytanie',
-        loadChildren: () => import('./feature/static/zapytanie.routes'),
+        loadChildren: () => import('./feature/inquiry/inquiry.routes'),
       },
       {
         path: 'faq',

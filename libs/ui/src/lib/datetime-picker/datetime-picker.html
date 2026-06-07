@@ -1,0 +1,18 @@
+<p-datepicker
+  class="wz-datetime-picker"
+  inputStyleClass="wz-datetime-picker__input"
+  appendTo="body"
+  hourFormat="24"
+  dateFormat="dd.mm.yy"
+  [fluid]="true"
+  [showIcon]="true"
+  [showTime]="true"
+  [ngModel]="dateValue()"
+  (ngModelChange)="onDateChange($event)"
+  [ngModelOptions]="{ standalone: true }"
+  [minDate]="resolvedMinDate()"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  [ariaLabelledBy]="ariaLabelledBy()"
+  data-testid="wz-datetime-picker"
+/>

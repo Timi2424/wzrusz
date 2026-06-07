@@ -1,0 +1,12 @@
+<label class="wz-checkbox" [class.wz-checkbox--disabled]="disabled()">
+  <input
+    class="wz-checkbox__native"
+    type="checkbox"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="toggle($event)"
+  />
+  <span class="wz-checkbox__label">
+    <ng-content />
+  </span>
+</label>
