@@ -1,3 +1,4 @@
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(withEventReplay()),
     provideBrowserGlobalErrorListeners(),
+    provideHttpClient(withFetch()),
     provideRouter(appRoutes),
     provideAnimationsAsync(),
     providePrimeNG({

@@ -1,0 +1,74 @@
+<main class="dekolista" data-testid="dekolista-page">
+  <header class="dekolista__header">
+    <p class="dekolista__eyebrow">Twoja lista</p>
+    <h1 class="dekolista__title">Dekolista</h1>
+    <p class="dekolista__lead">
+      Zbierz dekoracje z katalogu, sprawdź ilości i zatwierdź listę — dopiero potem przejdziesz do
+      formularza zapytania.
+    </p>
+  </header>
+
+  @if (store.isEmpty()) {
+    <section class="dekolista__empty">
+      <p>Lista jest pusta.</p>
+      <a routerLink="/katalog" class="dekolista__cta">Przeglądaj katalog</a>
+    </section>
+  } @else {
+    <ul class="dekolista__list">
+      @for (item of store.entries(); track item.decorationId) {
+        <li class="dekolista__row">
+          <div class="dekolista__row-main">
+            <h2 class="dekolista__row-title">{{ item.name }}</h2>
+            <p class="dekolista__row-meta">{{ item.categoryName }}</p>
+          </div>
+
+          <label class="dekolista__qty">
+            <span class="dekolista__qty-label">Ilość</span>
+            <input
+              type="number"
+              min="1"
+              [value]="item.quantity"
+              (change)="changeQuantity(item.decorationId, $any($event.target).value)"
+            />
+          </label>
+
+          <button
+            type="button"
+            class="dekolista__remove"
+            (click)="store.remove(item.decorationId)"
+          >
+            Usuń
+          </button>
+        </li>
+      }
+    </ul>
+
+    <p class="dekolista__summary">
+      {{ store.entries().length }}
+      {{
+        store.entries().length === 1
+          ? 'pozycja'
+          : store.entries().length >= 2 && store.entries().length <= 4
+            ? 'pozycje'
+            : 'pozycji'
+      }}
+      · łącznie {{ store.totalQuantity() }} szt.
+    </p>
+
+    <div class="dekolista__actions">
+      <button type="button" class="dekolista__secondary" (click)="store.clear()">
+        Wyczyść listę
+      </button>
+      <button type="button" class="dekolista__cta" (click)="confirmList()">
+        Zatwierdź Dekolistę
+      </button>
+    </div>
+
+    @if (store.confirmed()) {
+      <section class="dekolista__confirmed" data-testid="dekolista-confirmed">
+        <p>Listę zatwierdzono. Możesz przejść do formularza zapytania.</p>
+        <a routerLink="/zapytanie" class="dekolista__cta">Przejdź do zapytania</a>
+      </section>
+    }
+  }
+</main>

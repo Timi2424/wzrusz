@@ -24,4 +24,4 @@ W plikach widać czasem **WERUSZ** / **WARUSZ** — produkt i domena to **Wzrusz
 
 1. Edytujesz tutaj (lub dostarczasz nowe pliki).
 2. Agent optymalizuje → `public/brand/` lub `public/decor/` (WebP/SVG, mniejszy rozmiar).
-3. Kod importuje ścieżki z `features/public/brand.ts`.
+3. Kod importuje ścieżki z `core/brand.ts`.

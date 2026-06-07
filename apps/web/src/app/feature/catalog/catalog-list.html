@@ -1,0 +1,40 @@
+<main class="catalog" data-testid="catalog-list">
+  <header class="catalog__header">
+    <p class="catalog__eyebrow">Katalog</p>
+    <h1 class="catalog__title">Wybierz kategorię dekoracji</h1>
+    <p class="catalog__lead">
+      Stan magazynowy jest orientacyjny — ostateczną dostępność na Twój termin potwierdzimy po
+      zapytaniu.
+    </p>
+  </header>
+
+  @if (loading()) {
+    <p class="catalog__status" role="status">Ładowanie kategorii…</p>
+  } @else if (error()) {
+    <p class="catalog__status catalog__status--error" role="alert">
+      Nie udało się wczytać katalogu. Sprawdź połączenie i spróbuj ponownie.
+    </p>
+  } @else if (categories().length === 0) {
+    <p class="catalog__status">Katalog jest jeszcze pusty — wróć wkrótce.</p>
+  } @else {
+    <ul class="catalog__grid">
+      @for (category of categories(); track category.id) {
+        <li>
+          <a class="catalog__card" [routerLink]="['/katalog', category.slug]">
+            <h2 class="catalog__card-title">{{ category.name }}</h2>
+            <p class="catalog__card-meta">
+              {{ category.decorationCount }}
+              {{
+                category.decorationCount === 1
+                  ? 'dekoracja'
+                  : category.decorationCount >= 2 && category.decorationCount <= 4
+                    ? 'dekoracje'
+                    : 'dekoracji'
+              }}
+            </p>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</main>

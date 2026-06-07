@@ -1,0 +1,63 @@
+<main class="catalog" data-testid="category-detail">
+  <a class="catalog__back" routerLink="/katalog">← Wszystkie kategorie</a>
+
+  @if (loading()) {
+    <p class="catalog__status" role="status">Ładowanie dekoracji…</p>
+  } @else if (notFound()) {
+    <header class="catalog__header">
+      <h1 class="catalog__title">Nie znaleziono kategorii</h1>
+      <p class="catalog__lead">Sprawdź adres lub wróć do listy kategorii.</p>
+    </header>
+  } @else if (error()) {
+    <p class="catalog__status catalog__status--error" role="alert">
+      Nie udało się wczytać kategorii. Spróbuj ponownie później.
+    </p>
+  } @else if (category(); as detail) {
+    <header class="catalog__header">
+      <p class="catalog__eyebrow">Kategoria</p>
+      <h1 class="catalog__title">{{ detail.name }}</h1>
+    </header>
+
+    @if (detail.decorations.length === 0) {
+      <p class="catalog__status">W tej kategorii nie ma jeszcze dekoracji.</p>
+    } @else {
+      <ul class="catalog__decor-grid">
+        @for (decoration of detail.decorations; track decoration.id) {
+          <li>
+            <article class="catalog__decor-card">
+              <div class="catalog__decor-media" [class.catalog__decor-media--empty]="!decoration.imageUrl">
+                @if (decoration.imageUrl) {
+                  <img [src]="decoration.imageUrl" [alt]="decoration.name" loading="lazy" />
+                } @else {
+                  <span class="catalog__decor-placeholder" aria-hidden="true">Wzrusz</span>
+                }
+              </div>
+
+              <div class="catalog__decor-body">
+                <h2 class="catalog__decor-title">{{ decoration.name }}</h2>
+                <p class="catalog__decor-description">{{ decoration.description }}</p>
+                <p
+                  class="catalog__decor-stock"
+                  [class.catalog__decor-stock--empty]="decoration.stockQuantity <= 0"
+                >
+                  {{ stockLabel(decoration.stockQuantity) }}
+                </p>
+                <button
+                  type="button"
+                  class="catalog__decor-add"
+                  (click)="addToDekolista(decoration)"
+                >
+                  @if (dekolista.contains(decoration.id)) {
+                    Dodaj kolejną szt.
+                  } @else {
+                    Dodaj do Dekolisty
+                  }
+                </button>
+              </div>
+            </article>
+          </li>
+        }
+      </ul>
+    }
+  }
+</main>

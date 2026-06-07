@@ -10,6 +10,7 @@ Wzrusz is an Nx monorepo for a decoration rental inquiry platform: Angular 21 (`
 - Nest global prefix is `api` (`@apps/api/src/main.ts`). Dev proxy: `@apps/web/proxy.conf.json` maps `/api` → `http://localhost:3000`.
 - Never commit secrets (`.env`, AWS keys, JWT). Use environment variables; default API port is `3000`.
 - Honor `@nx/enforce-module-boundaries` in `@eslint.config.mjs` when adding `libs/`.
+- Web app folder types (Angular Enterprise): `core/`, `layout/`, `feature/*`, `ui/`, `pattern/` under `apps/web/src/app/`. Enforced by `eslint-plugin-boundaries` in `@apps/web/eslint.boundaries.config.mjs` — features must not import other features' implementation (only `*.routes.ts` from routing).
 
 ## Project structure
 

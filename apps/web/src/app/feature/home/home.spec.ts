@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { Home } from './home';
-import { WZRUSZ_HOME_SEO } from '../../../../core/seo/page-seo.model';
+import { WZRUSZ_HOME_SEO } from '../../core/seo/page-seo.model';
 
 describe('Home', () => {
   beforeEach(async () => {

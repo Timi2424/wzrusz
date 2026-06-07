@@ -18,7 +18,7 @@ Served at site root (`/brand/...`, `/fonts/...`) via `apps/web/project.json` →
 | `fala.png` | `wip/fala.png` — tło wycięte |
 | `iskierki.png` | `wip/iskierki.png` — tło wycięte |
 
-Ścieżki w kodzie: `features/public/brand.ts`.
+Ścieżki w kodzie: `core/brand.ts`.
 
 ## Fonts (`fonts/`)
 

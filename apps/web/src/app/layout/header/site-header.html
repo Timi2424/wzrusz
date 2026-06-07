@@ -12,6 +12,11 @@
       <a class="site-header__nav-link" routerLink="/katalog">Katalog</a>
       <a class="site-header__nav-link site-header__nav-link--dekolista" routerLink="/dekolista">
         Dekolista
+        @if (dekolista.totalQuantity() > 0) {
+          <span class="site-header__nav-badge" aria-label="Pozycje na Dekoliście">
+            {{ dekolista.totalQuantity() }}
+          </span>
+        }
         <i class="pi pi-list site-header__nav-icon" aria-hidden="true"></i>
       </a>
     </nav>

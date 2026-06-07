@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PageSeoService } from '../../../../core/seo/page-seo.service';
+import { PageSeoService } from '../../core/seo/page-seo.service';
 
 @Component({
   selector: 'app-coming-soon',

@@ -1,0 +1,116 @@
+@use './catalog-list.scss';
+
+.catalog__back {
+  display: inline-flex;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--wzrusz-ink);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--wzrusz-accent);
+  }
+}
+
+.catalog__decor-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.catalog__decor-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 10%, transparent);
+  background: color-mix(in srgb, white 78%, var(--wzrusz-cream));
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--wzrusz-ink) 7%, transparent);
+}
+
+.catalog__decor-media {
+  aspect-ratio: 4 / 3;
+  background: color-mix(in srgb, var(--wzrusz-bg) 70%, white);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &--empty {
+    display: grid;
+    place-items: center;
+  }
+}
+
+.catalog__decor-placeholder {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--wzrusz-ink) 45%, transparent);
+}
+
+.catalog__decor-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.1rem 1.2rem 1.25rem;
+}
+
+.catalog__decor-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--wzrusz-ink);
+}
+
+.catalog__decor-description {
+  margin: 0;
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--wzrusz-ink-muted);
+}
+
+.catalog__decor-stock {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--wzrusz-accent);
+
+  &--empty {
+    color: #9b2c2c;
+  }
+}
+
+.catalog__decor-add {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--wzrusz-accent) 10%, white);
+  color: var(--wzrusz-ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--wzrusz-accent) 18%, white);
+    border-color: var(--wzrusz-accent);
+  }
+}

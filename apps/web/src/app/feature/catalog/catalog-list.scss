@@ -1,0 +1,96 @@
+.catalog {
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 2.5rem var(--wzrusz-container-pad) 4rem;
+}
+
+.catalog__header {
+  max-width: 40rem;
+  margin-bottom: 2rem;
+}
+
+.catalog__eyebrow {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wzrusz-accent);
+}
+
+.catalog__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--wzrusz-ink);
+}
+
+.catalog__lead {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--wzrusz-ink-muted);
+}
+
+.catalog__status {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--wzrusz-ink-muted);
+
+  &--error {
+    color: #9b2c2c;
+  }
+}
+
+.catalog__grid {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 36rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 56rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.catalog__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 8.5rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 12%, transparent);
+  background: color-mix(in srgb, white 72%, var(--wzrusz-cream));
+  text-decoration: none;
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--wzrusz-ink) 8%, transparent);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--wzrusz-accent) 35%, transparent);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--wzrusz-accent) 16%, transparent);
+  }
+}
+
+.catalog__card-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--wzrusz-ink);
+}
+
+.catalog__card-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--wzrusz-ink-muted);
+}

@@ -1,7 +1,10 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { PublicShell } from './public-shell';
-import { Home } from '../../pages/home/home';
+
+@Component({ selector: 'app-test-stub', template: '' })
+class TestStub {}
 
 describe('PublicShell', () => {
   beforeEach(async () => {
@@ -12,7 +15,7 @@ describe('PublicShell', () => {
           {
             path: '',
             component: PublicShell,
-            children: [{ path: '', component: Home }],
+            children: [{ path: '', component: TestStub }],
           },
         ]),
       ],
