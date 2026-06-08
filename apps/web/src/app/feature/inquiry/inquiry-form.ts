@@ -12,8 +12,9 @@ import {
   WzCheckbox,
   WzDateTimePicker,
 } from '@wzrusz/ui';
-import { startWith } from 'rxjs';
+import { finalize, startWith } from 'rxjs';
 import { buildInquiryPreview } from '../../core/inquiry/build-inquiry-preview';
+import { InquiryApiService } from '../../core/inquiry/inquiry-api.service';
 import { EMPTY_INQUIRY_FORM } from '../../core/inquiry/inquiry-form.model';
 import { PageSeoService } from '../../core/seo/page-seo.service';
 import { DekolistaStore } from '../../core/dekolista/dekolista.store';
@@ -28,9 +29,13 @@ import { eventRangeValidator } from './inquiry-form.validators';
 export class InquiryFormPage implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly pageSeo = inject(PageSeoService);
+  private readonly inquiryApi = inject(InquiryApiService);
   protected readonly dekolista = inject(DekolistaStore);
 
-  protected readonly step = signal<'form' | 'review'>('form');
+  protected readonly step = signal<'form' | 'review' | 'success'>('form');
+  protected readonly submitting = signal(false);
+  protected readonly submitError = signal<string | null>(null);
+  protected readonly submittedId = signal<string | null>(null);
 
   protected readonly form = this.fb.group(
     {
@@ -86,7 +91,33 @@ export class InquiryFormPage implements OnInit {
   }
 
   protected backToForm(): void {
+    this.submitError.set(null);
     this.step.set('form');
+  }
+
+  protected submitInquiry(): void {
+    if (this.submitting()) {
+      return;
+    }
+
+    this.submitError.set(null);
+    this.submitting.set(true);
+
+    this.inquiryApi
+      .submit(this.form.getRawValue(), this.dekolista.entries())
+      .pipe(finalize(() => this.submitting.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.submittedId.set(response.id);
+          this.dekolista.clear();
+          this.step.set('success');
+        },
+        error: () => {
+          this.submitError.set(
+            'Nie udało się wysłać zapytania. Sprawdź połączenie i spróbuj ponownie.',
+          );
+        },
+      });
   }
 
   protected showError(controlName: keyof typeof this.form.controls): boolean {

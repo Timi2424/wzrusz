@@ -44,7 +44,8 @@
 
 .inquiry__form,
 .inquiry__preview,
-.inquiry__review {
+.inquiry__review,
+.inquiry__success {
   padding: 1.25rem 1.35rem;
   border-radius: 0.95rem;
   border: 1px solid color-mix(in srgb, var(--wzrusz-ink) 10%, transparent);
@@ -131,6 +132,12 @@
   padding-left: 1.2rem;
   color: var(--wzrusz-ink);
   line-height: 1.6;
+}
+
+.inquiry__reference {
+  margin: 1rem 0 0;
+  font-size: 0.92rem;
+  color: var(--wzrusz-ink-muted);
 }
 
 .inquiry__actions {

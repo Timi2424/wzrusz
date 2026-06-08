@@ -126,12 +126,11 @@
         <pre class="inquiry__preview-text" data-testid="inquiry-preview">{{ preview() }}</pre>
       </aside>
     </div>
-  } @else {
+  } @else if (step() === 'review') {
     <section class="inquiry__review" data-testid="inquiry-review">
       <h2 class="inquiry__section-title">Podsumowanie przed wysłaniem</h2>
       <p class="inquiry__review-lead">
-        Sprawdź treść wiadomości i listę dekoracji. Wysyłka zostanie podłączona w kolejnym kroku
-        (zapis w systemie i powiadomienie e-mail).
+        Sprawdź treść wiadomości i listę dekoracji. Po wysłaniu zapiszemy zapytanie w systemie.
       </p>
 
       <ul class="inquiry__review-list">
@@ -142,13 +141,41 @@
 
       <pre class="inquiry__preview-text inquiry__preview-text--review">{{ preview() }}</pre>
 
+      @if (submitError()) {
+        <p class="inquiry__error" role="alert" data-testid="inquiry-submit-error">{{ submitError() }}</p>
+      }
+
       <div class="inquiry__actions">
-        <button type="button" class="wz-btn-pill wz-btn-pill--ghost" (click)="backToForm()">
+        <button
+          type="button"
+          class="wz-btn-pill wz-btn-pill--ghost"
+          (click)="backToForm()"
+          [disabled]="submitting()"
+        >
           Popraw dane
         </button>
-        <button type="button" class="wz-btn-pill wz-btn-pill--accent" disabled>
-          Wyślij zapytanie (wkrótce)
+        <button
+          type="button"
+          class="wz-btn-pill wz-btn-pill--accent"
+          data-testid="inquiry-submit"
+          (click)="submitInquiry()"
+          [disabled]="submitting()"
+        >
+          {{ submitting() ? 'Wysyłanie…' : 'Wyślij zapytanie' }}
         </button>
+      </div>
+    </section>
+  } @else {
+    <section class="inquiry__success" data-testid="inquiry-success">
+      <h2 class="inquiry__section-title">Zapytanie wysłane</h2>
+      <p class="inquiry__review-lead">
+        Dziękujemy! Otrzymaliśmy Twoje zapytanie i skontaktujemy się w sprawie terminu.
+      </p>
+      @if (submittedId()) {
+        <p class="inquiry__reference">Numer zapytania: <strong>{{ submittedId() }}</strong></p>
+      }
+      <div class="inquiry__actions">
+        <a routerLink="/katalog" class="dekolista__cta wz-btn-pill wz-btn-pill--accent">Wróć do katalogu</a>
       </div>
     </section>
   }
