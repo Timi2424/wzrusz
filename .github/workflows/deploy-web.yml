@@ -34,6 +34,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Verify NX_API_URL resolves
+        run: npm run verify-api-url
+        env:
+          NX_API_URL: ${{ vars.NX_API_URL }}
+
       - name: Inject API URL for browser bundle
         run: npm run write-api-url
         env:

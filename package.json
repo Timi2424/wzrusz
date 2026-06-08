@@ -8,6 +8,7 @@
     "serve:api": "APP_ENV=local nx serve api",
     "build": "nx run-many -t build -p web,api",
     "write-api-url": "node scripts/write-api-base-url.mjs",
+    "verify-api-url": "node scripts/verify-api-url.mjs",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts"
