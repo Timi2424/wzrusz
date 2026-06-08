@@ -1,0 +1,42 @@
+.admin-inquiries h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  color: var(--wzrusz-ink);
+}
+
+.admin-inquiries__error {
+  color: #8a1f1f;
+}
+
+.admin-inquiries__table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(1 70 142 / 12%);
+}
+
+.admin-inquiries table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.admin-inquiries th,
+.admin-inquiries td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgb(1 70 142 / 8%);
+  vertical-align: top;
+}
+
+.admin-inquiries th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wzrusz-ink-muted);
+}
+
+.admin-inquiries__email {
+  color: var(--wzrusz-ink-muted);
+  font-size: 0.85rem;
+}

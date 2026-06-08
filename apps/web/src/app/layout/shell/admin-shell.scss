@@ -1,0 +1,65 @@
+.admin-shell {
+  min-height: 100vh;
+  background: var(--wzrusz-cream);
+}
+
+.admin-shell__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: 1rem var(--wzrusz-container-pad);
+  background: var(--wzrusz-header-bg);
+  border-bottom: 2px solid rgb(1 70 142 / 12%);
+}
+
+.admin-shell__brand a {
+  font-family: var(--font-logo);
+  font-size: 1.35rem;
+  color: var(--wzrusz-ink);
+  text-decoration: none;
+}
+
+.admin-shell__nav {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.admin-shell__nav a {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  color: var(--wzrusz-ink-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.admin-shell__nav a.is-active,
+.admin-shell__nav a:hover {
+  color: var(--wzrusz-ink);
+  background: rgb(176 224 240 / 45%);
+}
+
+.admin-shell__user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--wzrusz-ink-muted);
+}
+
+.admin-shell__logout {
+  border: 1px solid rgb(1 70 142 / 25%);
+  background: #fff;
+  color: var(--wzrusz-ink);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.admin-shell__main {
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 2rem var(--wzrusz-container-pad) 3rem;
+}

@@ -10,11 +10,12 @@ import { Category } from './entities/category.entity';
 import { Decoration } from './entities/decoration.entity';
 import { Inquiry } from './entities/inquiry.entity';
 import { InquiryLineItem } from './entities/inquiry-line-item.entity';
+import { User } from './entities/user.entity';
 
 export function buildCliDataSourceOptions(): DataSourceOptions {
   return {
     ...resolvePostgresConnection(),
-    entities: [Category, Decoration, Inquiry, InquiryLineItem],
+    entities: [Category, Decoration, Inquiry, InquiryLineItem, User],
     migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
     migrationsTableName: 'typeorm_migrations',
     synchronize: false,

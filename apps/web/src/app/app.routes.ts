@@ -36,4 +36,8 @@ export const appRoutes: Route[] = [
       },
     ],
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./feature/admin/admin.routes'),
+  },
 ];

@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import {
   CreateInquiryDto,
   CreateInquiryResponseDto,
@@ -15,8 +16,8 @@ export class InquiryController {
     return this.inquiries.create(body);
   }
 
-  /** Interim (staging): public until S-06 AdminAuthGuard on this route. */
   @Get()
+  @UseGuards(AdminAuthGuard)
   list(): Promise<InquirySummaryDto[]> {
     return this.inquiries.listSummaries();
   }
