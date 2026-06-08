@@ -9,6 +9,7 @@
     "build": "nx run-many -t build -p web,api",
     "write-api-url": "node scripts/write-api-base-url.mjs",
     "verify-api-url": "node scripts/verify-api-url.mjs",
+    "resolve-eb-api-url": "bash scripts/resolve-eb-api-url.sh",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts"
