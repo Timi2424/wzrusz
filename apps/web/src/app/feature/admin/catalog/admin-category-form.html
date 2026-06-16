@@ -1,0 +1,48 @@
+<section class="admin-catalog-form">
+  <p><a [routerLink]="backLink">← Wróć do katalogu</a></p>
+
+  <h1>{{ heading }}</h1>
+
+  @if (error()) {
+    <p class="admin-catalog-form__error" role="alert">{{ error() }}</p>
+  }
+
+  <form class="admin-catalog-form__grid" (ngSubmit)="save()">
+    <label>
+      <span>Nazwa</span>
+      <input
+        type="text"
+        required
+        [ngModel]="name()"
+        (ngModelChange)="name.set($event)"
+        name="name"
+      />
+    </label>
+
+    <label>
+      <span>Slug (opcjonalnie)</span>
+      <input
+        type="text"
+        [ngModel]="slug()"
+        (ngModelChange)="slug.set($event)"
+        name="slug"
+      />
+    </label>
+
+    <label>
+      <span>Kolejność</span>
+      <input
+        type="number"
+        [ngModel]="sortOrder()"
+        (ngModelChange)="sortOrder.set(+$event)"
+        name="sortOrder"
+      />
+    </label>
+
+    <div class="admin-catalog-form__actions">
+      <button type="submit" [disabled]="saving()">
+        {{ saving() ? 'Zapisywanie…' : 'Zapisz' }}
+      </button>
+    </div>
+  </form>
+</section>

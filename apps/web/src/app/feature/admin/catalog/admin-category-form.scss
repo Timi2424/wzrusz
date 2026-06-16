@@ -1,0 +1,81 @@
+.admin-catalog-form h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  color: var(--wzrusz-ink);
+}
+
+.admin-catalog-form__error {
+  color: #8a1f1f;
+}
+
+.admin-catalog-form__grid {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(1 70 142 / 12%);
+}
+
+.admin-catalog-form__grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-catalog-form__grid span {
+  font-size: 0.8rem;
+  color: var(--wzrusz-ink-muted);
+  font-weight: 600;
+}
+
+.admin-catalog-form__grid input,
+.admin-catalog-form__grid textarea,
+.admin-catalog-form__grid select {
+  min-height: 2.4rem;
+  border: 1px solid rgb(1 70 142 / 20%);
+  border-radius: 0.45rem;
+  padding: 0 0.6rem;
+  font: inherit;
+}
+
+.admin-catalog-form__grid textarea {
+  min-height: 6rem;
+  padding: 0.6rem;
+  resize: vertical;
+}
+
+.admin-catalog-form__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-catalog-form__actions button {
+  min-height: 2.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--wzrusz-accent);
+  background: var(--wzrusz-accent);
+  color: #fff;
+  padding: 0 0.85rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-catalog-form__actions button.is-ghost {
+  border-color: rgb(1 70 142 / 25%);
+  background: #fff;
+  color: var(--wzrusz-ink);
+}
+
+.admin-catalog-form__actions button.is-danger {
+  border-color: #8a1f1f;
+  background: #fff;
+  color: #8a1f1f;
+}
+
+.admin-catalog-form__actions button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

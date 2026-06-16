@@ -1,0 +1,121 @@
+.admin-category-detail h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  color: var(--wzrusz-ink);
+}
+
+.admin-category-detail__error {
+  color: #8a1f1f;
+}
+
+.admin-category-detail__form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(1 70 142 / 12%);
+}
+
+.admin-category-detail__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-category-detail__form span {
+  font-size: 0.8rem;
+  color: var(--wzrusz-ink-muted);
+  font-weight: 600;
+}
+
+.admin-category-detail__form input {
+  min-height: 2.4rem;
+  border: 1px solid rgb(1 70 142 / 20%);
+  border-radius: 0.45rem;
+  padding: 0 0.6rem;
+  font: inherit;
+}
+
+.admin-category-detail__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-category-detail__actions button {
+  min-height: 2.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--wzrusz-accent);
+  background: var(--wzrusz-accent);
+  color: #fff;
+  padding: 0 0.85rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-category-detail__actions button.is-danger {
+  border-color: #8a1f1f;
+  background: #fff;
+  color: #8a1f1f;
+}
+
+.admin-category-detail__decorations h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.admin-category-detail__decorations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-category-detail__primary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0 0.85rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--wzrusz-accent);
+  background: var(--wzrusz-accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-category-detail__table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(1 70 142 / 12%);
+}
+
+.admin-category-detail table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.admin-category-detail th,
+.admin-category-detail td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgb(1 70 142 / 8%);
+}
+
+.admin-category-detail th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wzrusz-ink-muted);
+}
+
+.admin-category-detail td a {
+  color: var(--wzrusz-accent);
+  font-weight: 600;
+}

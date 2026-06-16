@@ -1,0 +1,63 @@
+.admin-catalog h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+  color: var(--wzrusz-ink);
+}
+
+.admin-catalog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-catalog__primary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0 0.85rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--wzrusz-accent);
+  background: var(--wzrusz-accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-catalog__error {
+  color: #8a1f1f;
+}
+
+.admin-catalog__table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(1 70 142 / 12%);
+}
+
+.admin-catalog table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.admin-catalog th,
+.admin-catalog td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgb(1 70 142 / 8%);
+  vertical-align: top;
+}
+
+.admin-catalog th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wzrusz-ink-muted);
+}
+
+.admin-catalog td a {
+  color: var(--wzrusz-accent);
+  font-weight: 600;
+}

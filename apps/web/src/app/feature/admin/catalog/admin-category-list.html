@@ -1,0 +1,41 @@
+<section class="admin-catalog">
+  <div class="admin-catalog__header">
+    <h1>Katalog</h1>
+    <a class="admin-catalog__primary" routerLink="/admin/katalog/nowa">Nowa kategoria</a>
+  </div>
+
+  @if (loading()) {
+    <p>Ładowanie…</p>
+  } @else if (error()) {
+    <p class="admin-catalog__error" role="alert">{{ error() }}</p>
+  } @else if (categories().length === 0) {
+    <p>Brak kategorii.</p>
+  } @else {
+    <div class="admin-catalog__table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nazwa</th>
+            <th>Slug</th>
+            <th>Kolejność</th>
+            <th>Dekoracje</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of categories(); track row.id) {
+            <tr>
+              <td><strong>{{ row.name }}</strong></td>
+              <td>{{ row.slug }}</td>
+              <td>{{ row.sortOrder }}</td>
+              <td>{{ row.decorationCount }}</td>
+              <td>
+                <a [routerLink]="['/admin/katalog/kategorie', row.id]">Zarządzaj</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

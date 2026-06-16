@@ -1,0 +1,96 @@
+<section class="admin-category-detail">
+  <p><a routerLink="/admin/katalog">← Wróć do katalogu</a></p>
+
+  @if (loading()) {
+    <p>Ładowanie…</p>
+  } @else if (error()) {
+    <p class="admin-category-detail__error" role="alert">{{ error() }}</p>
+  } @else if (category(); as row) {
+    <h1>{{ row.name }}</h1>
+
+    <form class="admin-category-detail__form" (ngSubmit)="saveCategory()">
+      <label>
+        <span>Nazwa</span>
+        <input
+          type="text"
+          required
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          name="name"
+        />
+      </label>
+      <label>
+        <span>Slug</span>
+        <input
+          type="text"
+          [ngModel]="slug()"
+          (ngModelChange)="slug.set($event)"
+          name="slug"
+        />
+      </label>
+      <label>
+        <span>Kolejność</span>
+        <input
+          type="number"
+          [ngModel]="sortOrder()"
+          (ngModelChange)="sortOrder.set(+$event)"
+          name="sortOrder"
+        />
+      </label>
+      <div class="admin-category-detail__actions">
+        <button type="submit" [disabled]="saving()">
+          {{ saving() ? 'Zapisywanie…' : 'Zapisz kategorię' }}
+        </button>
+        <button
+          type="button"
+          class="is-danger"
+          [disabled]="deleting()"
+          (click)="deleteCategory()"
+        >
+          Usuń kategorię
+        </button>
+      </div>
+    </form>
+
+    <section class="admin-category-detail__decorations">
+      <div class="admin-category-detail__decorations-header">
+        <h2>Dekoracje</h2>
+        <a
+          class="admin-category-detail__primary"
+          [routerLink]="['/admin/katalog/kategorie', row.id, 'dekoracje', 'nowa']"
+        >
+          Nowa dekoracja
+        </a>
+      </div>
+
+      @if (decorations().length === 0) {
+        <p>Brak dekoracji w tej kategorii.</p>
+      } @else {
+        <div class="admin-category-detail__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nazwa</th>
+                <th>Slug</th>
+                <th>Stan</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of decorations(); track item.id) {
+                <tr>
+                  <td><strong>{{ item.name }}</strong></td>
+                  <td>{{ item.slug }}</td>
+                  <td>{{ item.stockQuantity }}</td>
+                  <td>
+                    <a [routerLink]="['/admin/katalog/dekoracje', item.id]">Edytuj</a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  }
+</section>
