@@ -31,3 +31,31 @@ export interface InquirySummaryDto {
   createdAt: string;
   lineItemCount: number;
 }
+
+export interface InquiryListFiltersDto {
+  from?: string;
+  to?: string;
+}
+
+export interface InquiryDetailLineItemDto {
+  id: string;
+  decorationId: string;
+  decorationName: string;
+  quantity: number;
+  sortOrder: number;
+}
+
+export interface InquiryDetailDto {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  eventStart: string;
+  eventEnd: string;
+  transportAddress: string;
+  needsInvoice: boolean;
+  invoiceNotes: string | null;
+  status: 'submitted';
+  createdAt: string;
+  lineItems: InquiryDetailLineItemDto[];
+}

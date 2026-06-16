@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import {
   CreateInquiryDto,
+  InquiryDetailDto,
+  InquiryListFiltersDto,
   CreateInquiryResponseDto,
   InquirySummaryDto,
 } from './inquiry.dto';
@@ -18,7 +29,33 @@ export class InquiryController {
 
   @Get()
   @UseGuards(AdminAuthGuard)
-  list(): Promise<InquirySummaryDto[]> {
-    return this.inquiries.listSummaries();
+  list(
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+  ): Promise<InquirySummaryDto[]> {
+    const filters: InquiryListFiltersDto = {
+      from: this.validateOptionalDate(from, 'from'),
+      to: this.validateOptionalDate(to, 'to'),
+    };
+    return this.inquiries.listSummaries(filters);
+  }
+
+  @Get(':id')
+  @UseGuards(AdminAuthGuard)
+  detail(@Param('id') id: string): Promise<InquiryDetailDto> {
+    return this.inquiries.getDetail(id);
+  }
+
+  private validateOptionalDate(
+    value: string | undefined,
+    field: string,
+  ): string | undefined {
+    if (!value) {
+      return undefined;
+    }
+    if (Number.isNaN(new Date(value).getTime())) {
+      throw new BadRequestException(`${field} must be a valid date`);
+    }
+    return value;
   }
 }

@@ -1,0 +1,58 @@
+<section class="admin-inquiry-detail">
+  <p><a routerLink="/admin/zapytania">← Wróć do listy</a></p>
+
+  @if (loading()) {
+    <p>Ładowanie szczegółów…</p>
+  } @else if (error()) {
+    <p class="admin-inquiry-detail__error" role="alert">{{ error() }}</p>
+  } @else if (inquiry(); as row) {
+    <h1>Zapytanie {{ row.id }}</h1>
+
+    <div class="admin-inquiry-detail__grid">
+      <article>
+        <h2>Dane klienta</h2>
+        <p><strong>{{ row.fullName }}</strong></p>
+        <p>{{ row.email }}</p>
+        <p>{{ row.phone || 'Brak telefonu' }}</p>
+      </article>
+
+      <article>
+        <h2>Termin i status</h2>
+        <p>{{ row.eventStart | date: 'short' }} — {{ row.eventEnd | date: 'short' }}</p>
+        <p>Status: {{ row.status }}</p>
+        <p>Utworzono: {{ row.createdAt | date: 'short' }}</p>
+      </article>
+
+      <article>
+        <h2>Transport</h2>
+        <p>{{ row.transportAddress }}</p>
+      </article>
+
+      <article>
+        <h2>Faktura</h2>
+        <p>{{ row.needsInvoice ? 'Tak' : 'Nie' }}</p>
+        <p>{{ row.invoiceNotes || 'Brak uwag do faktury' }}</p>
+      </article>
+    </div>
+
+    <article class="admin-inquiry-detail__items">
+      <h2>Dekolista</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dekoracja</th>
+            <th>Ilość</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of row.lineItems; track item.id) {
+            <tr>
+              <td>{{ item.decorationName }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </article>
+  }
+</section>

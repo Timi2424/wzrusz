@@ -1,6 +1,31 @@
 <section class="admin-inquiries">
   <h1>Zapytania</h1>
 
+  <form class="admin-inquiries__filters" (ngSubmit)="applyFilters()">
+    <label>
+      <span>Od daty</span>
+      <input
+        type="datetime-local"
+        [ngModel]="from()"
+        (ngModelChange)="from.set($event)"
+        name="from"
+      />
+    </label>
+    <label>
+      <span>Do daty</span>
+      <input
+        type="datetime-local"
+        [ngModel]="to()"
+        (ngModelChange)="to.set($event)"
+        name="to"
+      />
+    </label>
+    <div class="admin-inquiries__actions">
+      <button type="submit">Filtruj</button>
+      <button type="button" class="is-ghost" (click)="resetFilters()">Reset</button>
+    </div>
+  </form>
+
   @if (loading()) {
     <p>Ładowanie…</p>
   } @else if (error()) {
@@ -17,6 +42,7 @@
             <th>Termin wydarzenia</th>
             <th>Pozycje</th>
             <th>Status</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +59,9 @@
               </td>
               <td>{{ row.lineItemCount }}</td>
               <td>{{ row.status }}</td>
+              <td>
+                <a [routerLink]="['/admin/zapytania', row.id]">Szczegóły</a>
+              </td>
             </tr>
           }
         </tbody>

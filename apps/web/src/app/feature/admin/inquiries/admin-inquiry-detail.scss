@@ -1,0 +1,44 @@
+.admin-inquiry-detail h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  color: var(--wzrusz-ink);
+}
+
+.admin-inquiry-detail h2 {
+  margin: 0 0 0.5rem;
+  color: var(--wzrusz-ink);
+}
+
+.admin-inquiry-detail p {
+  margin: 0 0 0.45rem;
+}
+
+.admin-inquiry-detail__error {
+  color: #8a1f1f;
+}
+
+.admin-inquiry-detail__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.admin-inquiry-detail article {
+  background: #fff;
+  border: 1px solid rgb(1 70 142 / 12%);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.admin-inquiry-detail__items table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-inquiry-detail__items th,
+.admin-inquiry-detail__items td {
+  padding: 0.7rem;
+  border-bottom: 1px solid rgb(1 70 142 / 10%);
+  text-align: left;
+}

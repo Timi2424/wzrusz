@@ -12,6 +12,8 @@ import { InquiryStatus } from '../database/entities/inquiry-status.enum';
 import {
   CreateInquiryDto,
   CreateInquiryResponseDto,
+  InquiryDetailDto,
+  InquiryListFiltersDto,
   InquirySummaryDto,
 } from './inquiry.dto';
 import { InquiryNotificationService } from './inquiry-notification.service';
@@ -78,12 +80,20 @@ export class InquiryService {
     };
   }
 
-  async listSummaries(): Promise<InquirySummaryDto[]> {
-    const rows = await this.inquiries
+  async listSummaries(filters: InquiryListFiltersDto): Promise<InquirySummaryDto[]> {
+    const query = this.inquiries
       .createQueryBuilder('inquiry')
       .loadRelationCountAndMap('inquiry.lineItemCount', 'inquiry.lineItems')
-      .orderBy('inquiry.createdAt', 'DESC')
-      .getMany();
+      .orderBy('inquiry.createdAt', 'DESC');
+
+    if (filters.from) {
+      query.andWhere('inquiry.eventEnd >= :from', { from: filters.from });
+    }
+    if (filters.to) {
+      query.andWhere('inquiry.eventStart <= :to', { to: filters.to });
+    }
+
+    const rows = await query.getMany();
 
     return rows.map((row) => ({
       id: row.id,
@@ -96,6 +106,46 @@ export class InquiryService {
       lineItemCount:
         (row as Inquiry & { lineItemCount?: number }).lineItemCount ?? 0,
     }));
+  }
+
+  async getDetail(id: string): Promise<InquiryDetailDto> {
+    const inquiry = await this.inquiries.findOne({
+      where: { id },
+      relations: {
+        lineItems: {
+          decoration: true,
+        },
+      },
+    });
+
+    if (!inquiry) {
+      throw new NotFoundException('Inquiry was not found');
+    }
+
+    const lineItems = [...inquiry.lineItems]
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((line) => ({
+        id: line.id,
+        decorationId: line.decorationId,
+        decorationName: line.decoration?.name ?? 'Usunięta dekoracja',
+        quantity: line.quantity,
+        sortOrder: line.sortOrder,
+      }));
+
+    return {
+      id: inquiry.id,
+      fullName: inquiry.fullName,
+      email: inquiry.email,
+      phone: inquiry.phone,
+      eventStart: inquiry.eventStart.toISOString(),
+      eventEnd: inquiry.eventEnd.toISOString(),
+      transportAddress: inquiry.transportAddress,
+      needsInvoice: inquiry.needsInvoice,
+      invoiceNotes: inquiry.invoiceNotes,
+      status: 'submitted',
+      createdAt: inquiry.createdAt.toISOString(),
+      lineItems,
+    };
   }
 
   private assertCreatePayload(dto: CreateInquiryDto): void {
