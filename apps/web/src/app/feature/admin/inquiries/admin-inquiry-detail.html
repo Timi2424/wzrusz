@@ -42,17 +42,61 @@
           <tr>
             <th>Dekoracja</th>
             <th>Ilość</th>
+            @if (row.status === 'submitted') {
+              <th>Dostępne</th>
+              <th>Status</th>
+            }
           </tr>
         </thead>
         <tbody>
           @for (item of row.lineItems; track item.id) {
-            <tr>
+            <tr [class.is-shortage]="lineStatus(item.id) === 'shortage'">
               <td>{{ item.decorationName }}</td>
-              <td>{{ item.quantity }}</td>
+              <td>
+                @if (row.status === 'submitted') {
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    [ngModel]="quantities()[item.id]"
+                    (ngModelChange)="updateQuantity(item.id, +$event)"
+                    [name]="'qty-' + item.id"
+                  />
+                } @else {
+                  {{ item.quantity }}
+                }
+              </td>
+              @if (row.status === 'submitted') {
+                <td>{{ availabilityFor(item.id)?.availableQuantity ?? '—' }}</td>
+                <td>
+                  @if (lineStatus(item.id) === 'ok') {
+                    OK
+                  } @else if (lineStatus(item.id) === 'shortage') {
+                    Brak
+                  } @else {
+                    …
+                  }
+                </td>
+              }
             </tr>
           }
         </tbody>
       </table>
+
+      @if (row.status === 'submitted') {
+        @if (approveError()) {
+          <p class="admin-inquiry-detail__error" role="alert">{{ approveError() }}</p>
+        }
+        <div class="admin-inquiry-detail__actions">
+          <button
+            type="button"
+            [disabled]="approving() || !canApprove()"
+            (click)="approve()"
+          >
+            {{ approving() ? 'Zatwierdzanie…' : 'Zatwierdź rezerwację' }}
+          </button>
+        </div>
+      }
     </article>
   }
 </section>

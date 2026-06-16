@@ -3,6 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { apiUrl } from '../api/api-config';
 import {
+  ApproveInquiryPayload,
+  ApproveInquiryResponse,
+  InquiryAvailability,
   InquiryDetail,
   InquiryListFilters,
   InquirySummary,
@@ -42,5 +45,21 @@ export class InquiryApiService {
 
   getDetail(id: string): Observable<InquiryDetail> {
     return this.http.get<InquiryDetail>(apiUrl(`/api/inquiries/${id}`));
+  }
+
+  getAvailability(id: string): Observable<InquiryAvailability> {
+    return this.http.get<InquiryAvailability>(
+      apiUrl(`/api/inquiries/${id}/availability`),
+    );
+  }
+
+  approve(
+    id: string,
+    payload: ApproveInquiryPayload,
+  ): Observable<ApproveInquiryResponse> {
+    return this.http.post<ApproveInquiryResponse>(
+      apiUrl(`/api/inquiries/${id}/approve`),
+      payload,
+    );
   }
 }

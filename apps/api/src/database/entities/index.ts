@@ -3,5 +3,7 @@ export { Decoration } from './decoration.entity';
 export { Inquiry } from './inquiry.entity';
 export { InquiryLineItem } from './inquiry-line-item.entity';
 export { InquiryStatus } from './inquiry-status.enum';
+export { ScheduleEvent } from './schedule-event.entity';
+export { ScheduleEventLineItem } from './schedule-event-line-item.entity';
 export { User } from './user.entity';
 export { UserRole } from './user-role.enum';

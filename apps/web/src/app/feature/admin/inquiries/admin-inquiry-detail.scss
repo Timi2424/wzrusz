@@ -42,3 +42,36 @@
   border-bottom: 1px solid rgb(1 70 142 / 10%);
   text-align: left;
 }
+
+.admin-inquiry-detail__items input {
+  width: 4.5rem;
+  min-height: 2.2rem;
+  border: 1px solid rgb(1 70 142 / 20%);
+  border-radius: 0.45rem;
+  padding: 0 0.45rem;
+  font: inherit;
+}
+
+.admin-inquiry-detail__items tr.is-shortage {
+  background: rgb(138 31 31 / 6%);
+}
+
+.admin-inquiry-detail__actions {
+  margin-top: 1rem;
+}
+
+.admin-inquiry-detail__actions button {
+  min-height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--wzrusz-accent);
+  background: var(--wzrusz-accent);
+  color: #fff;
+  padding: 0 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-inquiry-detail__actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

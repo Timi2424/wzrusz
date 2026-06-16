@@ -1,0 +1,55 @@
+<section class="admin-scheduler">
+  <div class="admin-scheduler__header">
+    <h1>Scheduler</h1>
+    <div class="admin-scheduler__nav">
+      <button type="button" class="is-ghost" (click)="previousMonth()">←</button>
+      <strong>{{ monthLabel() }}</strong>
+      <button type="button" class="is-ghost" (click)="nextMonth()">→</button>
+      <button type="button" (click)="goToToday()">Dziś</button>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p>Ładowanie…</p>
+  } @else if (error()) {
+    <p class="admin-scheduler__error" role="alert">{{ error() }}</p>
+  } @else if (events().length === 0) {
+    <p>Brak eventów w tym miesiącu.</p>
+  } @else {
+    <div class="admin-scheduler__list">
+      @for (event of events(); track event.id) {
+        <article
+          class="admin-scheduler__event"
+          (mouseenter)="showOccupied(event.id)"
+          (mouseleave)="hideOccupied()"
+          (focusin)="showOccupied(event.id)"
+          (focusout)="hideOccupied()"
+          tabindex="0"
+        >
+          <div class="admin-scheduler__event-main">
+            <h2>{{ event.title }}</h2>
+            <p>
+              {{ event.startsAt | date: 'short' }} —
+              {{ event.endsAt | date: 'short' }}
+            </p>
+          </div>
+
+          @if (hoveredEventId() === event.id) {
+            <div class="admin-scheduler__popover" role="tooltip">
+              <h3>Zajęte dekoracje</h3>
+              @if (event.occupiedDecorations.length === 0) {
+                <p>Brak przypisanych dekoracji.</p>
+              } @else {
+                <ul>
+                  @for (item of event.occupiedDecorations; track item.decorationId) {
+                    <li>{{ item.decorationName }} × {{ item.quantity }}</li>
+                  }
+                </ul>
+              }
+            </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>

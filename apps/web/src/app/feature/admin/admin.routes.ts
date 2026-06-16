@@ -10,6 +10,7 @@ import { AdminDashboardPage } from './dashboard/admin-dashboard';
 import { AdminInquiryDetailPage } from './inquiries/admin-inquiry-detail';
 import { AdminInquiryListPage } from './inquiries/admin-inquiry-list';
 import { AdminLoginPage } from './login/admin-login';
+import { AdminSchedulerPage } from './scheduler/admin-scheduler';
 
 export default [
   {
@@ -62,6 +63,11 @@ export default [
         path: 'katalog/dekoracje/:id',
         component: AdminDecorationFormPage,
         title: 'Dekoracja — Wzrusz Admin',
+      },
+      {
+        path: 'scheduler',
+        component: AdminSchedulerPage,
+        title: 'Scheduler — Wzrusz Admin',
       },
     ],
   },

@@ -27,7 +27,7 @@ export interface InquirySummaryDto {
   email: string;
   eventStart: string;
   eventEnd: string;
-  status: 'submitted';
+  status: 'submitted' | 'approved';
   createdAt: string;
   lineItemCount: number;
 }
@@ -55,7 +55,7 @@ export interface InquiryDetailDto {
   transportAddress: string;
   needsInvoice: boolean;
   invoiceNotes: string | null;
-  status: 'submitted';
+  status: 'submitted' | 'approved';
   createdAt: string;
   lineItems: InquiryDetailLineItemDto[];
 }

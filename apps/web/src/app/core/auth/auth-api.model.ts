@@ -21,7 +21,7 @@ export interface InquirySummary {
   email: string;
   eventStart: string;
   eventEnd: string;
-  status: 'submitted';
+  status: 'submitted' | 'approved';
   createdAt: string;
   lineItemCount: number;
 }
@@ -29,6 +29,36 @@ export interface InquirySummary {
 export interface InquiryListFilters {
   from?: string;
   to?: string;
+}
+
+export interface InquiryAvailabilityItem {
+  lineItemId: string;
+  decorationId: string;
+  decorationName: string;
+  requestedQuantity: number;
+  availableQuantity: number;
+  status: 'ok' | 'shortage';
+}
+
+export interface InquiryAvailability {
+  inquiryId: string;
+  canApprove: boolean;
+  items: InquiryAvailabilityItem[];
+}
+
+export interface ApproveInquiryLineItem {
+  lineItemId: string;
+  quantity: number;
+}
+
+export interface ApproveInquiryPayload {
+  lineItems: ApproveInquiryLineItem[];
+}
+
+export interface ApproveInquiryResponse {
+  inquiryId: string;
+  status: 'approved';
+  scheduleEventId: string;
 }
 
 export interface InquiryDetailLineItem {
@@ -49,7 +79,7 @@ export interface InquiryDetail {
   transportAddress: string;
   needsInvoice: boolean;
   invoiceNotes: string | null;
-  status: 'submitted';
+  status: 'submitted' | 'approved';
   createdAt: string;
   lineItems: InquiryDetailLineItem[];
 }

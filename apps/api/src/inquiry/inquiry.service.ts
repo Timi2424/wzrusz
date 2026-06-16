@@ -101,7 +101,7 @@ export class InquiryService {
       email: row.email,
       eventStart: row.eventStart.toISOString(),
       eventEnd: row.eventEnd.toISOString(),
-      status: 'submitted',
+      status: row.status === InquiryStatus.Approved ? 'approved' : 'submitted',
       createdAt: row.createdAt.toISOString(),
       lineItemCount:
         (row as Inquiry & { lineItemCount?: number }).lineItemCount ?? 0,
@@ -142,7 +142,8 @@ export class InquiryService {
       transportAddress: inquiry.transportAddress,
       needsInvoice: inquiry.needsInvoice,
       invoiceNotes: inquiry.invoiceNotes,
-      status: 'submitted',
+      status:
+        inquiry.status === InquiryStatus.Approved ? 'approved' : 'submitted',
       createdAt: inquiry.createdAt.toISOString(),
       lineItems,
     };

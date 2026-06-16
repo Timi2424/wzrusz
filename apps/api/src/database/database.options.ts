@@ -5,13 +5,23 @@ import {
   Decoration,
   Inquiry,
   InquiryLineItem,
+  ScheduleEvent,
+  ScheduleEventLineItem,
   User,
 } from './entities';
 
 export function buildTypeOrmOptions(): TypeOrmModuleOptions {
   return {
     ...resolvePostgresConnection(),
-    entities: [Category, Decoration, Inquiry, InquiryLineItem, User],
+    entities: [
+      Category,
+      Decoration,
+      Inquiry,
+      InquiryLineItem,
+      ScheduleEvent,
+      ScheduleEventLineItem,
+      User,
+    ],
     autoLoadEntities: true,
     synchronize: false,
   };

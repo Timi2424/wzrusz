@@ -10,6 +10,12 @@ import {
 } from '@nestjs/common';
 import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import {
+  ApproveInquiryDto,
+  ApproveInquiryResponseDto,
+  InquiryAvailabilityDto,
+} from './inquiry-approval.dto';
+import { InquiryApprovalService } from './inquiry-approval.service';
+import {
   CreateInquiryDto,
   InquiryDetailDto,
   InquiryListFiltersDto,
@@ -20,7 +26,10 @@ import { InquiryService } from './inquiry.service';
 
 @Controller('inquiries')
 export class InquiryController {
-  constructor(private readonly inquiries: InquiryService) {}
+  constructor(
+    private readonly inquiries: InquiryService,
+    private readonly approval: InquiryApprovalService,
+  ) {}
 
   @Post()
   create(@Body() body: CreateInquiryDto): Promise<CreateInquiryResponseDto> {
@@ -38,6 +47,21 @@ export class InquiryController {
       to: this.validateOptionalDate(to, 'to'),
     };
     return this.inquiries.listSummaries(filters);
+  }
+
+  @Get(':id/availability')
+  @UseGuards(AdminAuthGuard)
+  availability(@Param('id') id: string): Promise<InquiryAvailabilityDto> {
+    return this.approval.getAvailability(id);
+  }
+
+  @Post(':id/approve')
+  @UseGuards(AdminAuthGuard)
+  approve(
+    @Param('id') id: string,
+    @Body() body: ApproveInquiryDto,
+  ): Promise<ApproveInquiryResponseDto> {
+    return this.approval.approve(id, body);
   }
 
   @Get(':id')
