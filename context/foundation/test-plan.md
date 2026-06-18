@@ -67,7 +67,7 @@ artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
 | 1 | Approval and stock integrity | Odrzucenie approve przy shortage + stock ≥ 0 po zatwierdzeniu | #1 | integration (+ uzupełnienie unit) | complete | testing-approval-stock-integrity |
-| 2 | Inquiry persistence and admin auth | Pełny zapis inquiry + blokada admin API bez JWT | #2, #3 | integration | not started | — |
+| 2 | Inquiry persistence and admin auth | Pełny zapis inquiry + blokada admin API bez JWT | #2, #3 | integration | complete | testing-inquiry-persistence-and-auth |
 | 3 | Media upload contract | Upload → poprawny public URL w katalogu | #4 | integration | not started | — |
 | 4 | Critical guest path e2e | Jeden flow katalog → submit z Playwright | #6 | e2e | not started | — |
 | 5 | Quality gates (hooks) | Lint + typecheck po edycji agenta | cross-cutting | post-edit-hook | not started | — |
@@ -129,11 +129,15 @@ How to add new tests in this project. Sub-sections fill in as rollout phases shi
 
 ### 6.5 Adding a test for inquiry / approval flow
 
-- TBD — see §3 Phase 1–2.
+- **Inquiry create/detail:** `apps/api/src/inquiry/inquiry.service.spec.ts` — multi line items, unknown decoration, sorted `getDetail`.
+- **Admin auth:** `apps/api/src/auth/admin-auth.guard.spec.ts` — 401 bez user, 403 bez roli admin.
+- **Approval/stock:** see §6.3 reference test.
 
 ### 6.6 Per-rollout-phase notes
 
 **Phase 1 (2026-06-18):** `InquiryApprovalService` — użyj `structuredClone(inquiry)` w `beforeEach`, bo `approve()` mutuje `inquiry.status` na tym samym obiekcie. Test inner guard wymaga rozjazdu między stock na relacji inquiry a stock w `findOneByOrFail` transakcji.
+
+**Phase 2 (2026-06-18):** `InquiryService.create` — mock transakcji musi obsłużyć `save(lineItems[])` jako tablicę. `AdminAuthGuard` testuj przez `handleRequest`, nie przez pełny HTTP.
 
 ## 7. What We Deliberately Don't Test
 

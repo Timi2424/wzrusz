@@ -11,6 +11,6 @@ When a change is complete, archive it with `/10x-archive` to move it under `cont
 | Change ID | Source |
 |---|---|
 | `ses-notifications-enabler` | F-04 partial (domena) |
-| `testing-approval-stock-integrity` | test-plan §3 Phase 1 |
+| `testing-inquiry-persistence-and-auth` | test-plan §3 Phase 2 |
 
 Completed changes live in `context/archive/`. See `context/foundation/roadmap.md` §Done.
