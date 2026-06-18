@@ -77,20 +77,32 @@ export async function cropImageToWebpFile(
     targetHeight,
   );
 
-  const blob = await new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob(
-      (value) => {
-        if (!value) {
-          reject(new Error('WebP export failed'));
-          return;
-        }
-        resolve(value);
-      },
-      'image/webp',
-      DECORATION_WEBP_QUALITY,
-    );
-  });
-
+  const blob = await exportCanvasBlob(canvas);
   const baseName = originalName.replace(/\.[^.]+$/, '') || 'dekoracja';
-  return new File([blob], `${baseName}.webp`, { type: 'image/webp' });
+  const extension = blob.type === 'image/jpeg' ? 'jpg' : 'webp';
+  return new File([blob], `${baseName}.${extension}`, { type: blob.type });
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality: number,
+): Promise<Blob | null> {
+  return new Promise((resolve) => {
+    canvas.toBlob((value) => resolve(value), type, quality);
+  });
+}
+
+async function exportCanvasBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  const webp = await canvasToBlob(canvas, 'image/webp', DECORATION_WEBP_QUALITY);
+  if (webp) {
+    return webp;
+  }
+
+  const jpeg = await canvasToBlob(canvas, 'image/jpeg', DECORATION_WEBP_QUALITY);
+  if (jpeg) {
+    return jpeg;
+  }
+
+  throw new Error('Image export failed');
 }

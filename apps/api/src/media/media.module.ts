@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { getMediaConfig } from './media.config';
+import { LocalMediaController } from './local-media.controller';
 import { MEDIA_STORAGE } from './media.types';
 import { S3MediaStorage } from './s3-media.storage';
 import { StubMediaStorage } from './stub-media.storage';
 
 @Module({
+  controllers: [LocalMediaController],
   providers: [
     {
       provide: MEDIA_STORAGE,

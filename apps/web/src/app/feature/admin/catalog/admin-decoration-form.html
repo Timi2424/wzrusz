@@ -53,7 +53,7 @@
           }
           @if (cropperOpen()) {
             <app-decoration-image-cropper
-              #cropper
+              [file]="pendingImageFile()"
               (cancel)="onCropCancel()"
               (cropped)="onCropConfirmed($event)"
             />

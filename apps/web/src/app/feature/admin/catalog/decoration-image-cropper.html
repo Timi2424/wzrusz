@@ -31,10 +31,20 @@
     />
   </label>
 
+  @if (localError()) {
+    <p class="decoration-cropper__error" role="alert">{{ localError() }}</p>
+  }
+
   <div class="decoration-cropper__actions">
     <button type="button" class="is-ghost" (click)="cancel.emit()">
       Anuluj
     </button>
-    <button type="button" (click)="confirmCrop()">Zapisz zdjęcie</button>
+    <button
+      type="button"
+      [disabled]="!imageReady() || exporting()"
+      (click)="confirmCrop()"
+    >
+      {{ exporting() ? 'Przygotowywanie…' : 'Zapisz zdjęcie' }}
+    </button>
   </div>
 </div>

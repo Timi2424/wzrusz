@@ -47,9 +47,8 @@ export class AdminDecorationFormPage implements OnInit {
   protected readonly imageUrl = signal('');
   protected readonly stockQuantity = signal(0);
   protected readonly cropperOpen = signal(false);
+  protected readonly pendingImageFile = signal<File | null>(null);
 
-  private readonly cropperRef =
-    viewChild<DecorationImageCropperComponent>('cropper');
   private readonly fileInputRef =
     viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
@@ -164,12 +163,13 @@ export class AdminDecorationFormPage implements OnInit {
     }
 
     this.error.set(null);
+    this.pendingImageFile.set(file);
     this.cropperOpen.set(true);
-    queueMicrotask(() => this.cropperRef()?.loadFile(file));
   }
 
   protected onCropCancel(): void {
     this.cropperOpen.set(false);
+    this.pendingImageFile.set(null);
   }
 
   protected onCropConfirmed(file: File): void {
@@ -179,6 +179,7 @@ export class AdminDecorationFormPage implements OnInit {
     }
 
     this.cropperOpen.set(false);
+    this.pendingImageFile.set(null);
     this.uploading.set(true);
     this.error.set(null);
 

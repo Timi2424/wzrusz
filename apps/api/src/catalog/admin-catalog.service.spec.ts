@@ -6,7 +6,7 @@ import { Category } from '../database/entities/category.entity';
 import { Decoration } from '../database/entities/decoration.entity';
 import { AdminCatalogService } from './admin-catalog.service';
 import { MEDIA_STORAGE } from '../media/media.types';
-import { STUB_MEDIA_URL } from '../media/stub-media.storage';
+import { localMediaPublicUrl } from '../media/local-media.paths';
 
 describe('AdminCatalogService', () => {
   let service: AdminCatalogService;
@@ -146,7 +146,9 @@ describe('AdminCatalogService', () => {
 
     decorations.findOne.mockResolvedValue(base);
     decorations.save.mockImplementation(async (value) => value as Decoration);
-    mediaStorage.upload.mockResolvedValue({ url: STUB_MEDIA_URL });
+    mediaStorage.upload.mockResolvedValue({
+      url: localMediaPublicUrl('decorations/dec-1.jpg'),
+    });
 
     await expect(
       service.uploadDecorationImage('dec-1', {
@@ -156,7 +158,7 @@ describe('AdminCatalogService', () => {
       }),
     ).resolves.toMatchObject({
       id: 'dec-1',
-      imageUrl: STUB_MEDIA_URL,
+      imageUrl: '/api/media/decorations/dec-1.jpg',
     });
 
     expect(mediaStorage.upload).toHaveBeenCalledWith(

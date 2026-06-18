@@ -47,4 +47,6 @@ Thumbs.db
 
 .env
 
+.local-media/
+
 __screenshots__/
