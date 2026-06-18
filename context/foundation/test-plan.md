@@ -70,7 +70,7 @@ artifacts appear on disk.
 | 2 | Inquiry persistence and admin auth | Pełny zapis inquiry + blokada admin API bez JWT | #2, #3 | integration | complete | testing-inquiry-persistence-and-auth |
 | 3 | Media upload contract | Upload → poprawny public URL w katalogu | #4 | integration | complete | testing-media-upload-contract |
 | 4 | Critical guest path e2e | Jeden flow katalog → submit z Playwright | #6 | e2e | complete | testing-critical-guest-path-e2e |
-| 5 | Quality gates (hooks) | Lint + typecheck po edycji agenta | cross-cutting | post-edit-hook | not started | — |
+| 5 | Quality gates (hooks) | Lint + typecheck po edycji agenta | cross-cutting | post-edit-hook | complete | testing-quality-gates-hooks |
 
 ## 4. Stack
 
@@ -147,6 +147,8 @@ How to add new tests in this project. Sub-sections fill in as rollout phases shi
 **Phase 3 (2026-06-18):** `uploadDecorationImage` — assert `imageUrl === uploaded.url` z `MEDIA_STORAGE`; odrzuć GIF przed wywołaniem storage. Stub local URL (`/api/media/...`) też OK — to nie jest avatar placeholder.
 
 **Phase 4 (2026-06-18):** PrimeNG DatePicker — w E2E wybieraj dzień przez `Choose Date` + `[data-date="Y-M-D"]`; koniec terminu = +1 dzień od początku (walidacja zakresu). Unikalny e-mail gościa (`Date.now()`). Nie używaj bezpośredniego `/zapytanie` bez przejścia przez UI — guard + SSR nie widzą localStorage.
+
+**Phase 5 (2026-06-18):** Hooki jako lokalny `.cursor/hooks/post-edit-quality.sh` (gitignored) — eslint na edytowanym pliku + `tsc -p` dla projektu. Exit 2 + `additional_context` przy błędzie. Wolniejsze checki (pełny E2E) zostają w CI.
 
 ## 7. What We Deliberately Don't Test
 
