@@ -1,0 +1,40 @@
+<div class="decoration-cropper">
+  <div
+    class="decoration-cropper__frame"
+    #frame
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event)"
+    (pointerleave)="onPointerUp($event)"
+  >
+    @if (imageSrc()) {
+      <img
+        class="decoration-cropper__image"
+        [src]="imageSrc()"
+        [style.transform]="imageTransform()"
+        draggable="false"
+        alt=""
+      />
+    }
+  </div>
+
+  <label class="decoration-cropper__zoom">
+    <span>Powiększenie</span>
+    <input
+      type="range"
+      min="1"
+      max="3"
+      step="0.01"
+      [ngModel]="zoom()"
+      (ngModelChange)="onZoomChange($event)"
+    />
+  </label>
+
+  <div class="decoration-cropper__actions">
+    <button type="button" class="is-ghost" (click)="cancel.emit()">
+      Anuluj
+    </button>
+    <button type="button" (click)="confirmCrop()">Zapisz zdjęcie</button>
+  </div>
+</div>

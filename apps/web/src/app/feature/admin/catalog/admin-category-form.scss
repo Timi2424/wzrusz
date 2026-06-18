@@ -79,3 +79,47 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+.admin-catalog-form__image {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-catalog-form__image-label {
+  font-size: 0.8rem;
+  color: var(--wzrusz-ink-muted);
+  font-weight: 600;
+}
+
+.admin-catalog-form__image-preview {
+  width: 100%;
+  max-width: 12rem;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  border: 1px solid rgb(1 70 142 / 20%);
+}
+
+.admin-catalog-form__image-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--wzrusz-ink-muted);
+}
+
+.admin-catalog-form__image-btn {
+  min-height: 2.4rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(1 70 142 / 25%);
+  background: #fff;
+  color: var(--wzrusz-ink);
+  padding: 0 0.85rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-catalog-form__image-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

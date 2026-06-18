@@ -6,8 +6,12 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { DECORATION_IMAGE_MAX_BYTES } from '../media/decoration-image';
 import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import {
   AdminCategoryDto,
@@ -82,5 +86,19 @@ export class AdminCatalogController {
   @Delete('decorations/:id')
   deleteDecoration(@Param('id') id: string): Promise<void> {
     return this.catalog.deleteDecoration(id);
+  }
+
+  @Post('decorations/:id/image')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: DECORATION_IMAGE_MAX_BYTES },
+    }),
+  )
+  uploadDecorationImage(
+    @Param('id') id: string,
+    @UploadedFile()
+    file: { mimetype: string; size: number; buffer: Buffer },
+  ): Promise<AdminDecorationDto> {
+    return this.catalog.uploadDecorationImage(id, file);
   }
 }

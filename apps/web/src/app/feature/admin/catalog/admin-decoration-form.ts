@@ -1,12 +1,27 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AdminDecoration } from '../../../core/catalog/admin-catalog-api.model';
 import { AdminCatalogApiService } from '../../../core/catalog/admin-catalog-api.service';
+import { DecorationImageCropperComponent } from './decoration-image-cropper';
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+]);
 
 @Component({
   selector: 'app-admin-decoration-form',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, DecorationImageCropperComponent],
   templateUrl: './admin-decoration-form.html',
   styleUrl: './admin-category-form.scss',
 })
@@ -18,6 +33,7 @@ export class AdminDecorationFormPage implements OnInit {
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly deleting = signal(false);
+  protected readonly uploading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly isCreate = signal(false);
   protected readonly categoryId = signal('');
@@ -30,6 +46,12 @@ export class AdminDecorationFormPage implements OnInit {
   protected readonly description = signal('');
   protected readonly imageUrl = signal('');
   protected readonly stockQuantity = signal(0);
+  protected readonly cropperOpen = signal(false);
+
+  private readonly cropperRef =
+    viewChild<DecorationImageCropperComponent>('cropper');
+  private readonly fileInputRef =
+    viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   ngOnInit(): void {
     const url = this.route.snapshot.url.map((segment) => segment.path);
@@ -76,7 +98,6 @@ export class AdminDecorationFormPage implements OnInit {
       name: this.name(),
       slug: this.slug() || undefined,
       description: this.description(),
-      imageUrl: this.imageUrl() || null,
       stockQuantity: this.stockQuantity(),
     };
 
@@ -121,6 +142,60 @@ export class AdminDecorationFormPage implements OnInit {
         this.deleting.set(false);
       },
     });
+  }
+
+  protected onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+
+    if (!file || !this.decorationId()) {
+      return;
+    }
+
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      this.error.set('Wybierz plik JPEG, PNG lub WebP.');
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_BYTES) {
+      this.error.set('Plik jest za duży (max 5 MB).');
+      return;
+    }
+
+    this.error.set(null);
+    this.cropperOpen.set(true);
+    queueMicrotask(() => this.cropperRef()?.loadFile(file));
+  }
+
+  protected onCropCancel(): void {
+    this.cropperOpen.set(false);
+  }
+
+  protected onCropConfirmed(file: File): void {
+    const id = this.decorationId();
+    if (!id) {
+      return;
+    }
+
+    this.cropperOpen.set(false);
+    this.uploading.set(true);
+    this.error.set(null);
+
+    this.catalogApi.uploadDecorationImage(id, file).subscribe({
+      next: (value) => {
+        this.imageUrl.set(value.imageUrl ?? '');
+        this.uploading.set(false);
+      },
+      error: () => {
+        this.error.set('Nie udało się wysłać zdjęcia.');
+        this.uploading.set(false);
+      },
+    });
+  }
+
+  protected openFilePicker(): void {
+    this.fileInputRef()?.nativeElement.click();
   }
 
   private applyDecoration(value: AdminDecoration): void {

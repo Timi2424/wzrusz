@@ -5,9 +5,12 @@ import { Repository } from 'typeorm';
 import { Category } from '../database/entities/category.entity';
 import { Decoration } from '../database/entities/decoration.entity';
 import { AdminCatalogService } from './admin-catalog.service';
+import { MEDIA_STORAGE } from '../media/media.types';
+import { STUB_MEDIA_URL } from '../media/stub-media.storage';
 
 describe('AdminCatalogService', () => {
   let service: AdminCatalogService;
+  let mediaStorage: { upload: jest.Mock };
   let categories: {
     createQueryBuilder: jest.Mock;
     findOne: jest.Mock;
@@ -25,6 +28,7 @@ describe('AdminCatalogService', () => {
   };
 
   beforeEach(async () => {
+    mediaStorage = { upload: jest.fn() };
     categories = {
       createQueryBuilder: jest.fn(),
       findOne: jest.fn(),
@@ -51,6 +55,10 @@ describe('AdminCatalogService', () => {
         {
           provide: getRepositoryToken(Decoration),
           useValue: decorations,
+        },
+        {
+          provide: MEDIA_STORAGE,
+          useValue: mediaStorage,
         },
       ],
     }).compile();
@@ -121,6 +129,41 @@ describe('AdminCatalogService', () => {
 
     await expect(service.getDecoration('missing')).rejects.toBeInstanceOf(
       NotFoundException,
+    );
+  });
+
+  it('uploads decoration image and stores public url', async () => {
+    const base = {
+      id: 'dec-1',
+      categoryId: 'cat-1',
+      category: { name: 'Balony' },
+      name: 'Girlanda',
+      slug: 'girlanda',
+      description: 'Opis',
+      imageUrl: null,
+      stockQuantity: 2,
+    } as Decoration;
+
+    decorations.findOne.mockResolvedValue(base);
+    decorations.save.mockImplementation(async (value) => value as Decoration);
+    mediaStorage.upload.mockResolvedValue({ url: STUB_MEDIA_URL });
+
+    await expect(
+      service.uploadDecorationImage('dec-1', {
+        mimetype: 'image/jpeg',
+        size: 4,
+        buffer: Buffer.from('jpeg'),
+      }),
+    ).resolves.toMatchObject({
+      id: 'dec-1',
+      imageUrl: STUB_MEDIA_URL,
+    });
+
+    expect(mediaStorage.upload).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'decorations/dec-1.jpg',
+        contentType: 'image/jpeg',
+      }),
     );
   });
 });

@@ -1,11 +1,18 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
+import {
+  assertDecorationImageFile,
+  decorationImageKey,
+} from '../media/decoration-image';
+import { getMediaConfig } from '../media/media.config';
+import { MEDIA_STORAGE, MediaStorage } from '../media/media.types';
 import { Category } from '../database/entities/category.entity';
 import { Decoration } from '../database/entities/decoration.entity';
 import {
@@ -25,6 +32,8 @@ export class AdminCatalogService {
     private readonly categories: Repository<Category>,
     @InjectRepository(Decoration)
     private readonly decorations: Repository<Decoration>,
+    @Inject(MEDIA_STORAGE)
+    private readonly mediaStorage: MediaStorage,
   ) {}
 
   async listCategories(): Promise<AdminCategoryDto[]> {
@@ -238,6 +247,30 @@ export class AdminCatalogService {
   async deleteDecoration(id: string): Promise<void> {
     const decoration = await this.findDecorationOrThrow(id);
     await this.decorations.remove(decoration);
+  }
+
+  async uploadDecorationImage(
+    id: string,
+    file: { mimetype: string; size: number; buffer: Buffer },
+  ): Promise<AdminDecorationDto> {
+    assertDecorationImageFile(file);
+    const decoration = await this.findDecorationOrThrow(id);
+    const mediaConfig = getMediaConfig();
+    const key = decorationImageKey(
+      mediaConfig.prefix,
+      decoration.id,
+      file.mimetype,
+    );
+
+    const uploaded = await this.mediaStorage.upload({
+      key,
+      body: file.buffer,
+      contentType: file.mimetype,
+    });
+
+    decoration.imageUrl = uploaded.url;
+    const saved = await this.decorations.save(decoration);
+    return this.toDecorationDto(saved);
   }
 
   private async findCategoryOrThrow(id: string): Promise<Category> {

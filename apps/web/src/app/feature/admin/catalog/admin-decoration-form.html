@@ -41,16 +41,52 @@
         ></textarea>
       </label>
 
-      <label>
-        <span>URL zdjęcia (opcjonalnie)</span>
-        <input
-          type="url"
-          [ngModel]="imageUrl()"
-          (ngModelChange)="imageUrl.set($event)"
-          name="imageUrl"
-          placeholder="https://…"
-        />
-      </label>
+      @if (!isCreate()) {
+        <div class="admin-catalog-form__image">
+          <span class="admin-catalog-form__image-label">Zdjęcie</span>
+          @if (imageUrl() && !cropperOpen()) {
+            <img
+              class="admin-catalog-form__image-preview"
+              [src]="imageUrl()"
+              [alt]="name() || 'Podgląd zdjęcia dekoracji'"
+            />
+          }
+          @if (cropperOpen()) {
+            <app-decoration-image-cropper
+              #cropper
+              (cancel)="onCropCancel()"
+              (cropped)="onCropConfirmed($event)"
+            />
+          } @else {
+            <input
+              #fileInput
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              hidden
+              (change)="onImageSelected($event)"
+            />
+            <button
+              type="button"
+              class="admin-catalog-form__image-btn"
+              [disabled]="uploading()"
+              (click)="openFilePicker()"
+            >
+              {{ imageUrl() ? 'Zmień zdjęcie' : 'Dodaj zdjęcie' }}
+            </button>
+            @if (uploading()) {
+              <p class="admin-catalog-form__image-hint">Wysyłanie zdjęcia…</p>
+            } @else {
+              <p class="admin-catalog-form__image-hint">
+                Kadrowanie 4:3, zapis jako WebP (max 5 MB źródło)
+              </p>
+            }
+          }
+        </div>
+      } @else {
+        <p class="admin-catalog-form__image-hint">
+          Zdjęcie dodasz po zapisaniu nowej dekoracji.
+        </p>
+      }
 
       <label>
         <span>Stan magazynowy</span>

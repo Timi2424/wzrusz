@@ -77,4 +77,16 @@ export class AdminCatalogApiService {
   deleteDecoration(id: string): Observable<void> {
     return this.http.delete<void>(apiUrl(`${this.base}/decorations/${id}`));
   }
+
+  uploadDecorationImage(
+  id: string,
+  file: File,
+): Observable<AdminDecoration> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<AdminDecoration>(
+      apiUrl(`${this.base}/decorations/${id}/image`),
+      formData,
+    );
+  }
 }
