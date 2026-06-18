@@ -4,6 +4,7 @@ export interface PageSeo {
   ogTitle?: string;
   ogDescription?: string;
   ogType?: string;
+  ogImage?: string;
 }
 
 export const WZRUSZ_HOME_SEO: PageSeo = {

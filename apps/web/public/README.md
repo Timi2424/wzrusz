@@ -6,7 +6,10 @@ Served at site root (`/brand/...`, `/fonts/...`) via `apps/web/project.json` →
 
 | File | Replace when |
 |------|----------------|
-| `logo.png` | Wavy wordmark z `wip/logo_bez_tla.png` |
+| `logo.webp` | Primary wordmark (header); regenerate from `wip/logo_bez_tla.png` |
+| `logo.png` | PNG fallback for older browsers |
+| `logo-footer.webp` | Optional smaller wordmark (not used in UI currently) |
+| `og-image.webp` / `og-image.png` | Open Graph / Twitter share (1200×1200) |
 | `favicon.png` | Z `wip/logo_okragle.png` (32px) |
 | `favicon-180.png` | Apple touch icon |
 | `logo-avatar.png` | Okrągłe logo (social) |
