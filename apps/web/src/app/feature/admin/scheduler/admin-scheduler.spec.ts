@@ -30,8 +30,8 @@ describe('AdminSchedulerPage', () => {
       {
         id: 'evt-1',
         title: 'Wesele Kowalscy',
-        startsAt: '2026-07-15T08:00:00.000Z',
-        endsAt: '2026-07-16T16:00:00.000Z',
+        startsAt: '2026-06-15T08:00:00.000Z',
+        endsAt: '2026-06-16T16:00:00.000Z',
         inquiryId: null,
         occupiedDecorations: [
           {
@@ -46,5 +46,6 @@ describe('AdminSchedulerPage', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain('Wesele Kowalscy');
+    expect(fixture.nativeElement.querySelector('.admin-scheduler__calendar')).toBeTruthy();
   });
 });

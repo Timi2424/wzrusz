@@ -13,43 +13,93 @@
     <p>Ładowanie…</p>
   } @else if (error()) {
     <p class="admin-scheduler__error" role="alert">{{ error() }}</p>
-  } @else if (events().length === 0) {
-    <p>Brak eventów w tym miesiącu.</p>
   } @else {
-    <div class="admin-scheduler__list">
-      @for (event of events(); track event.id) {
-        <article
-          class="admin-scheduler__event"
-          (mouseenter)="showOccupied(event.id)"
-          (mouseleave)="hideOccupied()"
-          (focusin)="showOccupied(event.id)"
-          (focusout)="hideOccupied()"
-          tabindex="0"
-        >
-          <div class="admin-scheduler__event-main">
-            <h2>{{ event.title }}</h2>
-            <p>
-              {{ event.startsAt | date: 'short' }} —
-              {{ event.endsAt | date: 'short' }}
-            </p>
+    <div class="admin-scheduler__calendar" aria-label="Kalendarz eventów">
+      <div class="admin-scheduler__weekdays">
+        @for (label of weekdayLabels; track label) {
+          <div class="admin-scheduler__weekday">{{ label }}</div>
+        }
+      </div>
+
+      @for (week of calendarWeeks(); track $index) {
+        <div class="admin-scheduler__week">
+          <div class="admin-scheduler__week-days">
+            @for (day of week.days; track day.date.toISOString()) {
+              <div
+                class="admin-scheduler__day"
+                [class.is-outside]="!day.inMonth"
+                [class.is-today]="day.isToday"
+              >
+                <span class="admin-scheduler__day-number">{{ dayLabel(day.date) }}</span>
+              </div>
+            }
           </div>
 
-          @if (hoveredEventId() === event.id) {
-            <div class="admin-scheduler__popover" role="tooltip">
-              <h3>Zajęte dekoracje</h3>
-              @if (event.occupiedDecorations.length === 0) {
-                <p>Brak przypisanych dekoracji.</p>
-              } @else {
-                <ul>
-                  @for (item of event.occupiedDecorations; track item.decorationId) {
-                    <li>{{ item.decorationName }} × {{ item.quantity }}</li>
+          <div class="admin-scheduler__week-events">
+            @for (segment of week.segments; track segment.key) {
+              @if (isSegmentVisible(segment)) {
+                <button
+                  type="button"
+                  class="admin-scheduler__event-bar"
+                  [class.is-active]="hoveredEventId() === segment.event.id"
+                  [class.is-continued-before]="segment.continuesBefore"
+                  [class.is-continued-after]="segment.continuesAfter"
+                  [ngStyle]="segmentStyle(segment)"
+                  [attr.aria-label]="segment.event.title"
+                  (mouseenter)="showOccupied(segment.event.id)"
+                  (mouseleave)="hideOccupied()"
+                  (focus)="showOccupied(segment.event.id)"
+                  (blur)="hideOccupied()"
+                >
+                  @if (segment.showTitle) {
+                    {{ segment.event.title }}
                   }
-                </ul>
+                </button>
               }
-            </div>
-          }
-        </article>
+            }
+
+            @for (hiddenCount of weekColumnHiddenCounts(week); track $index) {
+              @if (hiddenCount > 0) {
+                <span
+                  class="admin-scheduler__overflow"
+                  [ngStyle]="overflowChipStyle($index)"
+                  [attr.title]="hiddenCount + ' więcej w tym dniu'"
+                >
+                  +{{ hiddenCount }}
+                </span>
+              }
+            }
+          </div>
+        </div>
       }
     </div>
+
+    @if (hoveredEventId(); as activeEventId) {
+      @for (event of events(); track event.id) {
+        @if (event.id === activeEventId) {
+          <div class="admin-scheduler__popover" role="tooltip">
+            <p class="admin-scheduler__popover-title">{{ event.title }}</p>
+            <p class="admin-scheduler__popover-range">
+              {{ event.startsAt | date: 'short':'':'pl' }} —
+              {{ event.endsAt | date: 'short':'':'pl' }}
+            </p>
+            <h3>Zajęte dekoracje</h3>
+            @if (event.occupiedDecorations.length === 0) {
+              <p>Brak przypisanych dekoracji.</p>
+            } @else {
+              <ul>
+                @for (item of event.occupiedDecorations; track item.decorationId) {
+                  <li>{{ item.decorationName }} × {{ item.quantity }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      }
+    }
+
+    @if (!hasEventsInMonth()) {
+      <p class="admin-scheduler__empty">Brak eventów w tym miesiącu.</p>
+    }
   }
 </section>
