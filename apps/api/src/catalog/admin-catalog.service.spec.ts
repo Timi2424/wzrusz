@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Category } from '../database/entities/category.entity';
 import { Decoration } from '../database/entities/decoration.entity';
@@ -166,6 +166,59 @@ describe('AdminCatalogService', () => {
         key: 'decorations/dec-1.jpg',
         contentType: 'image/jpeg',
       }),
+    );
+  });
+
+  it('rejects unsupported image mime types before upload', async () => {
+    decorations.findOne.mockResolvedValue({
+      id: 'dec-1',
+      categoryId: 'cat-1',
+      name: 'Girlanda',
+    } as Decoration);
+
+    await expect(
+      service.uploadDecorationImage('dec-1', {
+        mimetype: 'image/gif',
+        size: 4,
+        buffer: Buffer.from('gif'),
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+
+    expect(mediaStorage.upload).not.toHaveBeenCalled();
+  });
+
+  it('persists the public url returned by media storage', async () => {
+    const base = {
+      id: 'dec-1',
+      categoryId: 'cat-1',
+      category: { name: 'Balony' },
+      name: 'Girlanda',
+      slug: 'girlanda',
+      description: 'Opis',
+      imageUrl: null,
+      stockQuantity: 2,
+    } as Decoration;
+
+    const publicUrl =
+      'https://wzrusz-media-staging.s3.eu-central-1.amazonaws.com/decorations/dec-1.webp';
+
+    decorations.findOne.mockResolvedValue(base);
+    decorations.save.mockImplementation(async (value) => value as Decoration);
+    mediaStorage.upload.mockResolvedValue({ url: publicUrl });
+
+    await expect(
+      service.uploadDecorationImage('dec-1', {
+        mimetype: 'image/webp',
+        size: 8,
+        buffer: Buffer.from('webp'),
+      }),
+    ).resolves.toMatchObject({
+      id: 'dec-1',
+      imageUrl: publicUrl,
+    });
+
+    expect(decorations.save).toHaveBeenCalledWith(
+      expect.objectContaining({ imageUrl: publicUrl }),
     );
   });
 });

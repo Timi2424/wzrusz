@@ -68,7 +68,7 @@ artifacts appear on disk.
 |---|------------|-----------------|---------------|------------|--------|---------------|
 | 1 | Approval and stock integrity | Odrzucenie approve przy shortage + stock ≥ 0 po zatwierdzeniu | #1 | integration (+ uzupełnienie unit) | complete | testing-approval-stock-integrity |
 | 2 | Inquiry persistence and admin auth | Pełny zapis inquiry + blokada admin API bez JWT | #2, #3 | integration | complete | testing-inquiry-persistence-and-auth |
-| 3 | Media upload contract | Upload → poprawny public URL w katalogu | #4 | integration | not started | — |
+| 3 | Media upload contract | Upload → poprawny public URL w katalogu | #4 | integration | complete | testing-media-upload-contract |
 | 4 | Critical guest path e2e | Jeden flow katalog → submit z Playwright | #6 | e2e | not started | — |
 | 5 | Quality gates (hooks) | Lint + typecheck po edycji agenta | cross-cutting | post-edit-hook | not started | — |
 
@@ -138,6 +138,8 @@ How to add new tests in this project. Sub-sections fill in as rollout phases shi
 **Phase 1 (2026-06-18):** `InquiryApprovalService` — użyj `structuredClone(inquiry)` w `beforeEach`, bo `approve()` mutuje `inquiry.status` na tym samym obiekcie. Test inner guard wymaga rozjazdu między stock na relacji inquiry a stock w `findOneByOrFail` transakcji.
 
 **Phase 2 (2026-06-18):** `InquiryService.create` — mock transakcji musi obsłużyć `save(lineItems[])` jako tablicę. `AdminAuthGuard` testuj przez `handleRequest`, nie przez pełny HTTP.
+
+**Phase 3 (2026-06-18):** `uploadDecorationImage` — assert `imageUrl === uploaded.url` z `MEDIA_STORAGE`; odrzuć GIF przed wywołaniem storage. Stub local URL (`/api/media/...`) też OK — to nie jest avatar placeholder.
 
 ## 7. What We Deliberately Don't Test
 
