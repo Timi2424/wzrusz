@@ -49,4 +49,8 @@ Thumbs.db
 
 .local-media/
 
+# Cursor IDE + materiały kursu 10x (lokalnie, poza repo)
+.cursor/
+context/lessons/
+
 __screenshots__/
