@@ -9,6 +9,7 @@ import {
   InquiryDetail,
   InquiryListFilters,
   InquirySummary,
+  SendSuccessEmailResponse,
 } from '../auth/auth-api.model';
 import { DekolistaItem } from '../dekolista/dekolista.model';
 import {
@@ -60,6 +61,13 @@ export class InquiryApiService {
     return this.http.post<ApproveInquiryResponse>(
       apiUrl(`/api/inquiries/${id}/approve`),
       payload,
+    );
+  }
+
+  sendSuccessEmail(id: string): Observable<SendSuccessEmailResponse> {
+    return this.http.post<SendSuccessEmailResponse>(
+      apiUrl(`/api/inquiries/${id}/send-success-email`),
+      {},
     );
   }
 }

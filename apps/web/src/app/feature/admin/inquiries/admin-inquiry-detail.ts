@@ -20,8 +20,10 @@ export class AdminInquiryDetailPage implements OnInit {
 
   protected readonly loading = signal(true);
   protected readonly approving = signal(false);
+  protected readonly sendingEmail = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly approveError = signal<string | null>(null);
+  protected readonly emailError = signal<string | null>(null);
   protected readonly inquiry = signal<InquiryDetail | null>(null);
   protected readonly availability = signal<InquiryAvailability | null>(null);
   protected readonly quantities = signal<Record<string, number>>({});
@@ -89,7 +91,7 @@ export class AdminInquiryDetailPage implements OnInit {
 
     this.inquiryApi.approve(inquiry.id, payload).subscribe({
       next: () => {
-        this.inquiry.set({ ...inquiry, status: 'approved' });
+        this.inquiry.set({ ...inquiry, status: 'approved', successEmailSentAt: null });
         this.availability.set(null);
         this.approving.set(false);
       },
@@ -112,6 +114,30 @@ export class AdminInquiryDetailPage implements OnInit {
 
     const requested = this.quantities()[lineItemId] ?? item.requestedQuantity;
     return requested <= item.availableQuantity ? 'ok' : 'shortage';
+  }
+
+  protected sendSuccessEmail(): void {
+    const inquiry = this.inquiry();
+    if (!inquiry || inquiry.status !== 'approved') {
+      return;
+    }
+
+    this.sendingEmail.set(true);
+    this.emailError.set(null);
+
+    this.inquiryApi.sendSuccessEmail(inquiry.id).subscribe({
+      next: (response) => {
+        this.inquiry.set({
+          ...inquiry,
+          successEmailSentAt: response.successEmailSentAt,
+        });
+        this.sendingEmail.set(false);
+      },
+      error: () => {
+        this.emailError.set('Nie udało się wysłać maila potwierdzającego.');
+        this.sendingEmail.set(false);
+      },
+    });
   }
 
   private loadAvailability(id: string): void {

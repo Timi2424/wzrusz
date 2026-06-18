@@ -75,3 +75,15 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.admin-inquiry-detail__actions button.is-secondary {
+  border-color: rgb(1 70 142 / 25%);
+  background: #fff;
+  color: var(--wzrusz-ink);
+}
+
+.admin-inquiry-detail__email-sent {
+  margin-bottom: 0.65rem;
+  font-size: 0.9rem;
+  color: var(--wzrusz-ink-muted);
+}

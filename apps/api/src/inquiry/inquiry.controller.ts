@@ -15,12 +15,14 @@ import {
   InquiryAvailabilityDto,
 } from './inquiry-approval.dto';
 import { InquiryApprovalService } from './inquiry-approval.service';
+import { InquirySuccessEmailService } from './inquiry-success-email.service';
 import {
   CreateInquiryDto,
   InquiryDetailDto,
   InquiryListFiltersDto,
   CreateInquiryResponseDto,
   InquirySummaryDto,
+  SendSuccessEmailResponseDto,
 } from './inquiry.dto';
 import { InquiryService } from './inquiry.service';
 
@@ -29,6 +31,7 @@ export class InquiryController {
   constructor(
     private readonly inquiries: InquiryService,
     private readonly approval: InquiryApprovalService,
+    private readonly successEmail: InquirySuccessEmailService,
   ) {}
 
   @Post()
@@ -62,6 +65,14 @@ export class InquiryController {
     @Body() body: ApproveInquiryDto,
   ): Promise<ApproveInquiryResponseDto> {
     return this.approval.approve(id, body);
+  }
+
+  @Post(':id/send-success-email')
+  @UseGuards(AdminAuthGuard)
+  sendSuccessEmail(
+    @Param('id') id: string,
+  ): Promise<SendSuccessEmailResponseDto> {
+    return this.successEmail.send(id);
   }
 
   @Get(':id')

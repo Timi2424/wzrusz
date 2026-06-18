@@ -61,6 +61,11 @@ export interface ApproveInquiryResponse {
   scheduleEventId: string;
 }
 
+export interface SendSuccessEmailResponse {
+  inquiryId: string;
+  successEmailSentAt: string;
+}
+
 export interface InquiryDetailLineItem {
   id: string;
   decorationId: string;
@@ -80,6 +85,7 @@ export interface InquiryDetail {
   needsInvoice: boolean;
   invoiceNotes: string | null;
   status: 'submitted' | 'approved';
+  successEmailSentAt: string | null;
   createdAt: string;
   lineItems: InquiryDetailLineItem[];
 }

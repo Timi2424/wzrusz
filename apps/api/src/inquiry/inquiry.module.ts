@@ -9,6 +9,7 @@ import { ScheduleEventLineItem } from '../database/entities/schedule-event-line-
 import { InquiryController } from './inquiry.controller';
 import { InquiryApprovalService } from './inquiry-approval.service';
 import { InquiryNotificationService } from './inquiry-notification.service';
+import { InquirySuccessEmailService } from './inquiry-success-email.service';
 import { InquiryService } from './inquiry.service';
 
 @Module({
@@ -23,6 +24,11 @@ import { InquiryService } from './inquiry.service';
     ]),
   ],
   controllers: [InquiryController],
-  providers: [InquiryService, InquiryApprovalService, InquiryNotificationService],
+  providers: [
+    InquiryService,
+    InquiryApprovalService,
+    InquiryNotificationService,
+    InquirySuccessEmailService,
+  ],
 })
 export class InquiryModule {}

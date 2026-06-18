@@ -97,6 +97,33 @@
           </button>
         </div>
       }
+
+      @if (row.status === 'approved') {
+        <div class="admin-inquiry-detail__actions">
+          @if (emailError()) {
+            <p class="admin-inquiry-detail__error" role="alert">{{ emailError() }}</p>
+          }
+          @if (row.successEmailSentAt) {
+            <p class="admin-inquiry-detail__email-sent">
+              Mail potwierdzający wysłano: {{ row.successEmailSentAt | date: 'short':'':'pl' }}
+            </p>
+          }
+          <button
+            type="button"
+            class="is-secondary"
+            [disabled]="sendingEmail()"
+            (click)="sendSuccessEmail()"
+          >
+            {{
+              sendingEmail()
+                ? 'Wysyłanie…'
+                : row.successEmailSentAt
+                  ? 'Wyślij mail ponownie'
+                  : 'Wyślij mail potwierdzający'
+            }}
+          </button>
+        </div>
+      }
     </article>
   }
 </section>

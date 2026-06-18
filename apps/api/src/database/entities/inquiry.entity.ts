@@ -44,6 +44,9 @@ export class Inquiry {
   })
   status!: InquiryStatus;
 
+  @Column({ name: 'success_email_sent_at', type: 'timestamptz', nullable: true })
+  successEmailSentAt!: Date | null;
+
   @OneToMany(() => InquiryLineItem, (line) => line.inquiry)
   lineItems!: InquiryLineItem[];
 

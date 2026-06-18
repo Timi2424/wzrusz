@@ -144,6 +144,7 @@ export class InquiryService {
       invoiceNotes: inquiry.invoiceNotes,
       status:
         inquiry.status === InquiryStatus.Approved ? 'approved' : 'submitted',
+      successEmailSentAt: inquiry.successEmailSentAt?.toISOString() ?? null,
       createdAt: inquiry.createdAt.toISOString(),
       lineItems,
     };

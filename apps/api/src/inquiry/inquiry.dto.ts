@@ -56,6 +56,12 @@ export interface InquiryDetailDto {
   needsInvoice: boolean;
   invoiceNotes: string | null;
   status: 'submitted' | 'approved';
+  successEmailSentAt: string | null;
   createdAt: string;
   lineItems: InquiryDetailLineItemDto[];
+}
+
+export interface SendSuccessEmailResponseDto {
+  inquiryId: string;
+  successEmailSentAt: string;
 }
