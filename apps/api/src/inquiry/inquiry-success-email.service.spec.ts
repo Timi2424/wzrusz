@@ -34,7 +34,7 @@ describe('InquirySuccessEmailService', () => {
       save: jest.fn().mockImplementation(async (row: Inquiry) => row),
     };
     notifications = {
-      sendSuccessConfirmation: jest.fn(),
+      sendSuccessConfirmation: jest.fn().mockResolvedValue(undefined),
     };
 
     const moduleRef = await Test.createTestingModule({
@@ -79,6 +79,14 @@ describe('InquirySuccessEmailService', () => {
 
     await expect(service.send('inq-1')).rejects.toBeInstanceOf(ConflictException);
     expect(notifications.sendSuccessConfirmation).not.toHaveBeenCalled();
+  });
+
+  it('does not stamp sent time when email delivery fails', async () => {
+    inquiries.findOne.mockResolvedValue({ ...approvedInquiry });
+    notifications.sendSuccessConfirmation.mockRejectedValue(new Error('SES down'));
+
+    await expect(service.send('inq-1')).rejects.toThrow('SES down');
+    expect(inquiries.save).not.toHaveBeenCalled();
   });
 
   it('throws when inquiry is missing', async () => {

@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,6 +21,8 @@ import { InquiryNotificationService } from './inquiry-notification.service';
 
 @Injectable()
 export class InquiryService {
+  private readonly logger = new Logger(InquiryService.name);
+
   constructor(
     @InjectRepository(Inquiry)
     private readonly inquiries: Repository<Inquiry>,
@@ -71,7 +74,11 @@ export class InquiryService {
       return inquiry;
     });
 
-    this.notifications.notifyAdminNewInquiry(saved.id, dto);
+    this.notifications.notifyAdminNewInquiry(saved.id, dto).catch((error) => {
+      this.logger.error(
+        `Failed to notify admin about inquiry ${saved.id}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    });
 
     return {
       id: saved.id,

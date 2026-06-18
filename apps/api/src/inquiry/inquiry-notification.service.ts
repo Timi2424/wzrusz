@@ -1,35 +1,45 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Inquiry } from '../database/entities/inquiry.entity';
+import { EMAIL_SENDER, EmailSender } from '../email/email.types';
+import { getEmailConfig } from '../email/email.config';
 import { CreateInquiryDto } from './inquiry.dto';
+import {
+  buildAdminNewInquiryEmail,
+  buildClientSuccessEmail,
+} from './inquiry-email.templates';
 
-/** Stub until F-04 SES — logs intent; wire SES in F-04 without changing callers. */
 @Injectable()
 export class InquiryNotificationService {
   private readonly logger = new Logger(InquiryNotificationService.name);
+  private readonly config = getEmailConfig();
 
-  notifyAdminNewInquiry(inquiryId: string, payload: CreateInquiryDto): void {
-    this.logger.log(
-      `[email-stub] New inquiry ${inquiryId} from ${payload.email} (${payload.lineItems.length} line items)`,
-    );
+  constructor(@Inject(EMAIL_SENDER) private readonly mailer: EmailSender) {}
+
+  async notifyAdminNewInquiry(
+    inquiryId: string,
+    payload: CreateInquiryDto,
+  ): Promise<void> {
+    const { subject, text } = buildAdminNewInquiryEmail(inquiryId, payload);
+
+    await this.mailer.send({
+      to: this.config.adminNotifyEmail,
+      subject,
+      text,
+    });
+
+    this.logger.log(`Admin notified about inquiry ${inquiryId}`);
   }
 
-  sendSuccessConfirmation(inquiry: Inquiry): void {
-    const decorations = [...(inquiry.lineItems ?? [])]
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map(
-        (line) =>
-          `${line.decoration?.name ?? 'Dekoracja'} × ${line.quantity}`,
-      )
-      .join(', ');
+  async sendSuccessConfirmation(inquiry: Inquiry): Promise<void> {
+    const { subject, text, html } = buildClientSuccessEmail(inquiry);
 
-    this.logger.log(
-      [
-        `[email-stub] Success confirmation to ${inquiry.email}`,
-        `Subject: Wzrusz — potwierdzenie rezerwacji`,
-        `To: ${inquiry.fullName} <${inquiry.email}>`,
-        `Event: ${inquiry.eventStart.toISOString()} — ${inquiry.eventEnd.toISOString()}`,
-        `Items: ${decorations || '—'}`,
-      ].join(' | '),
-    );
+    await this.mailer.send({
+      to: inquiry.email,
+      subject,
+      text,
+      html,
+    });
+
+    this.logger.log(`Success confirmation sent to ${inquiry.email}`);
   }
 }

@@ -31,7 +31,12 @@ describe('InquiryService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         InquiryService,
-        InquiryNotificationService,
+        {
+          provide: InquiryNotificationService,
+          useValue: {
+            notifyAdminNewInquiry: jest.fn().mockResolvedValue(undefined),
+          },
+        },
         {
           provide: getRepositoryToken(Inquiry),
           useValue: { createQueryBuilder: jest.fn() },

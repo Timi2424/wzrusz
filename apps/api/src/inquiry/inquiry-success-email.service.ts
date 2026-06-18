@@ -38,7 +38,7 @@ export class InquirySuccessEmailService {
       );
     }
 
-    this.notifications.sendSuccessConfirmation(inquiry);
+    await this.notifications.sendSuccessConfirmation(inquiry);
 
     inquiry.successEmailSentAt = new Date();
     await this.inquiries.save(inquiry);
