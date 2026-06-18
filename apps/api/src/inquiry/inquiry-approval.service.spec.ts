@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ConflictException } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
-import { Decoration } from '../database/entities/decoration.entity';
-import { InquiryLineItem } from '../database/entities/inquiry-line-item.entity';
+import { DataSource } from 'typeorm';
 import { Inquiry } from '../database/entities/inquiry.entity';
 import { InquiryStatus } from '../database/entities/inquiry-status.enum';
 import { ScheduleEventLineItem } from '../database/entities/schedule-event-line-item.entity';
@@ -15,7 +12,7 @@ describe('InquiryApprovalService', () => {
   let scheduleLineItems: { createQueryBuilder: jest.Mock };
   let transaction: jest.Mock;
 
-  const inquiry = {
+  const baseInquiry = {
     id: 'inq-1',
     fullName: 'Anna Kowalska',
     email: 'anna@example.com',
@@ -33,6 +30,28 @@ describe('InquiryApprovalService', () => {
     ],
   } as Inquiry;
 
+  function mockOccupied(rows: Array<{ decorationId: string; quantity: string }>) {
+    scheduleLineItems.createQueryBuilder.mockReturnValue({
+      innerJoin: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue(rows),
+    });
+  }
+
+  function mockTransactionDecoration(decoration: { id: string; stockQuantity: number }) {
+    transaction.mockImplementation(async (work) =>
+      work({
+        create: (_entity: unknown, data: object) => ({ id: 'evt-1', ...data }),
+        save: jest.fn(async (value: object) => value),
+        findOneByOrFail: jest.fn(async () => decoration),
+      }),
+    );
+  }
+
   beforeEach(async () => {
     transaction = jest.fn(async (work) =>
       work({
@@ -42,7 +61,9 @@ describe('InquiryApprovalService', () => {
       }),
     );
 
-    inquiries = { findOne: jest.fn().mockResolvedValue(inquiry) };
+    inquiries = {
+      findOne: jest.fn().mockImplementation(async () => structuredClone(baseInquiry)),
+    };
     scheduleLineItems = {
       createQueryBuilder: jest.fn().mockReturnValue({
         innerJoin: jest.fn().mockReturnThis(),
@@ -93,7 +114,38 @@ describe('InquiryApprovalService', () => {
     });
   });
 
-  it('approves inquiry and creates schedule event', async () => {
+  it('reports shortage when overlapping schedule events consume stock', async () => {
+    mockOccupied([{ decorationId: 'dec-1', quantity: '4' }]);
+
+    await expect(service.getAvailability('inq-1')).resolves.toMatchObject({
+      inquiryId: 'inq-1',
+      canApprove: false,
+      items: [
+        {
+          lineItemId: 'line-1',
+          requestedQuantity: 2,
+          availableQuantity: 1,
+          status: 'shortage',
+        },
+      ],
+    });
+  });
+
+  it('does not allow approve when inquiry is not submitted', async () => {
+    inquiries.findOne.mockResolvedValue({
+      ...baseInquiry,
+      status: InquiryStatus.Approved,
+    });
+
+    await expect(service.getAvailability('inq-1')).resolves.toMatchObject({
+      canApprove: false,
+    });
+  });
+
+  it('approves inquiry and decrements stock in the transaction', async () => {
+    const decoration = { id: 'dec-1', stockQuantity: 5 };
+    mockTransactionDecoration(decoration);
+
     await expect(
       service.approve('inq-1', {
         lineItems: [{ lineItemId: 'line-1', quantity: 2 }],
@@ -104,15 +156,16 @@ describe('InquiryApprovalService', () => {
       scheduleEventId: 'evt-1',
     });
 
+    expect(decoration.stockQuantity).toBe(3);
     expect(transaction).toHaveBeenCalled();
   });
 
-  it('rejects approval when stock is insufficient', async () => {
+  it('rejects approval when requested quantity exceeds available stock', async () => {
     inquiries.findOne.mockResolvedValue({
-      ...inquiry,
+      ...baseInquiry,
       lineItems: [
         {
-          ...inquiry.lineItems[0],
+          ...baseInquiry.lineItems[0],
           quantity: 8,
           decoration: { id: 'dec-1', name: 'Girlanda', stockQuantity: 5 },
         },
@@ -123,6 +176,40 @@ describe('InquiryApprovalService', () => {
       service.approve('inq-1', {
         lineItems: [{ lineItemId: 'line-1', quantity: 8 }],
       }),
-    ).rejects.toBeInstanceOf(ConflictException);
+    ).rejects.toThrow('Requested quantities exceed availability');
+  });
+
+  it('rejects approval when transaction would drive stock below zero', async () => {
+    const decoration = { id: 'dec-1', stockQuantity: 1 };
+    mockTransactionDecoration(decoration);
+
+    await expect(
+      service.approve('inq-1', {
+        lineItems: [{ lineItemId: 'line-1', quantity: 2 }],
+      }),
+    ).rejects.toThrow('Stock cannot go below zero');
+
+    expect(decoration.stockQuantity).toBe(-1);
+  });
+
+  it('rejects approval when inquiry was already processed', async () => {
+    inquiries.findOne.mockResolvedValue({
+      ...baseInquiry,
+      status: InquiryStatus.Approved,
+    });
+
+    await expect(
+      service.approve('inq-1', {
+        lineItems: [{ lineItemId: 'line-1', quantity: 2 }],
+      }),
+    ).rejects.toThrow('Inquiry was already processed');
+  });
+
+  it('rejects invalid approve payload', async () => {
+    await expect(
+      service.approve('inq-1', {
+        lineItems: [{ lineItemId: 'unknown-line', quantity: 1 }],
+      }),
+    ).rejects.toThrow('lineItems[].lineItemId is invalid');
   });
 });

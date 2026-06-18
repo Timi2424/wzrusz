@@ -1,7 +1,7 @@
 ---
 change_id: testing-approval-stock-integrity
 title: Test rollout Phase 1 — approval and stock integrity
-status: proposed
+status: implemented
 created: 2026-06-18
 updated: 2026-06-18
 archived_at: null

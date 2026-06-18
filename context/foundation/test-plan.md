@@ -66,7 +66,7 @@ artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|------------|-----------------|---------------|------------|--------|---------------|
-| 1 | Approval and stock integrity | Odrzucenie approve przy shortage + stock ≥ 0 po zatwierdzeniu | #1 | integration (+ uzupełnienie unit) | change opened | testing-approval-stock-integrity |
+| 1 | Approval and stock integrity | Odrzucenie approve przy shortage + stock ≥ 0 po zatwierdzeniu | #1 | integration (+ uzupełnienie unit) | complete | testing-approval-stock-integrity |
 | 2 | Inquiry persistence and admin auth | Pełny zapis inquiry + blokada admin API bez JWT | #2, #3 | integration | not started | — |
 | 3 | Media upload contract | Upload → poprawny public URL w katalogu | #4 | integration | not started | — |
 | 4 | Critical guest path e2e | Jeden flow katalog → submit z Playwright | #6 | e2e | not started | — |
@@ -118,7 +118,10 @@ How to add new tests in this project. Sub-sections fill in as rollout phases shi
 
 ### 6.3 Adding an integration test (API)
 
-- TBD — see §3 Phase 1–2.
+- **Location:** na razie wzmacniamy testy serwisu w `apps/api/src/inquiry/*.spec.ts` z mockiem transakcji TypeORM (brak harnessu Postgres w CI).
+- **Reference test:** `apps/api/src/inquiry/inquiry-approval.service.spec.ts` — overlap schedulera, decrement stock, inner guard `Stock cannot go below zero`.
+- **Run locally:** `npx nx test api -- inquiry-approval.service.spec`
+- **When to add real DB integration:** gdy pojawi się testcontainers/docker Postgres w pipeline (Phase 2+).
 
 ### 6.4 Adding an e2e test
 
@@ -130,7 +133,7 @@ How to add new tests in this project. Sub-sections fill in as rollout phases shi
 
 ### 6.6 Per-rollout-phase notes
 
-(TBD as phases complete.)
+**Phase 1 (2026-06-18):** `InquiryApprovalService` — użyj `structuredClone(inquiry)` w `beforeEach`, bo `approve()` mutuje `inquiry.status` na tym samym obiekcie. Test inner guard wymaga rozjazdu między stock na relacji inquiry a stock w `findOneByOrFail` transakcji.
 
 ## 7. What We Deliberately Don't Test
 
