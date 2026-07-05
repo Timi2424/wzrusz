@@ -1,0 +1,79 @@
+.faq {
+  max-width: var(--wzrusz-container);
+  margin: 0 auto;
+  padding: 2.5rem var(--wzrusz-container-pad) 4rem;
+}
+
+.faq__header {
+  max-width: 40rem;
+  margin-bottom: 2rem;
+}
+
+.faq__eyebrow {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wzrusz-accent);
+}
+
+.faq__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--wzrusz-ink);
+}
+
+.faq__lead {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--wzrusz-ink-muted);
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 44rem;
+}
+
+.faq__item {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--wzrusz-border, #e8e4df);
+  border-radius: 1rem;
+  background: var(--wzrusz-surface, #fff);
+}
+
+.faq__question {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.35;
+  color: var(--wzrusz-ink);
+}
+
+.faq__answer {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--wzrusz-ink-muted);
+}
+
+.faq__cta {
+  margin-top: 2.5rem;
+  max-width: 44rem;
+
+  p {
+    margin: 0 0 1rem;
+    font-weight: 600;
+    color: var(--wzrusz-ink);
+  }
+}
+
+.faq__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

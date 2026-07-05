@@ -1,0 +1,26 @@
+<main class="faq" data-testid="faq-page">
+  <header class="faq__header">
+    <p class="faq__eyebrow">Pomoc</p>
+    <h1 class="faq__title">Najczęstsze pytania</h1>
+    <p class="faq__lead">
+      Krótko o tym, jak działa zapytanie o dekoracje — bez zakupu online i z potwierdzeniem terminu po naszej stronie.
+    </p>
+  </header>
+
+  <div class="faq__list">
+    @for (item of items; track item.id) {
+      <article class="faq__item" [attr.data-testid]="'faq-item-' + item.id">
+        <h2 class="faq__question">{{ item.question }}</h2>
+        <p class="faq__answer">{{ item.answer }}</p>
+      </article>
+    }
+  </div>
+
+  <footer class="faq__cta">
+    <p>Gotowy na zapytanie?</p>
+    <div class="faq__cta-actions">
+      <a routerLink="/katalog" class="wz-btn-pill wz-btn-pill--accent">Przeglądaj katalog</a>
+      <a href="mailto:wzrusz.poznan@gmail.com" class="wz-btn-pill wz-btn-pill--ghost">Napisz do nas</a>
+    </div>
+  </footer>
+</main>

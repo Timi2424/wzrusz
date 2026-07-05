@@ -1,11 +1,10 @@
 import { Route } from '@angular/router';
-import { ComingSoon } from './coming-soon';
+import { FaqPage } from './faq';
 
 export default [
   {
     path: '',
-    component: ComingSoon,
-    data: { title: 'FAQ' },
+    component: FaqPage,
     title: 'FAQ — Wzrusz',
   },
 ] satisfies Route[];
