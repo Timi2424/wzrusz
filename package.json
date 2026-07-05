@@ -12,7 +12,8 @@
     "resolve-eb-api-url": "bash scripts/resolve-eb-api-url.sh",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts"
+    "db:migrate": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/run-migrations.ts",
+    "db:reset": "ts-node --project apps/api/tsconfig.app.json apps/api/src/database/reset-database.ts"
   },
   "private": true,
   "engines": {

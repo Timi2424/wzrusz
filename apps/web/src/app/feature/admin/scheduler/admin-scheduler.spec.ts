@@ -20,6 +20,10 @@ describe('AdminSchedulerPage', () => {
   });
 
   it('renders events from scheduler API', () => {
+    const now = new Date();
+    const startsAt = new Date(now.getFullYear(), now.getMonth(), 15, 12, 0, 0);
+    const endsAt = new Date(now.getFullYear(), now.getMonth(), 16, 12, 0, 0);
+
     const fixture = TestBed.createComponent(AdminSchedulerPage);
     fixture.detectChanges();
 
@@ -30,8 +34,8 @@ describe('AdminSchedulerPage', () => {
       {
         id: 'evt-1',
         title: 'Wesele Kowalscy',
-        startsAt: '2026-06-15T08:00:00.000Z',
-        endsAt: '2026-06-16T16:00:00.000Z',
+        startsAt: startsAt.toISOString(),
+        endsAt: endsAt.toISOString(),
         inquiryId: null,
         occupiedDecorations: [
           {
